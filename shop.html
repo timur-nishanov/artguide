@@ -44,19 +44,11 @@
     html { min-height: 100%; }
     body {
       min-height: 100vh;
-      margin-left: 20px;
+      border-left: 20px solid #000;
       background: #fff;
       color: #000;
       font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
-    }
-    body::before {
-      content: '';
-      position: fixed;
-      left: 0; top: 0; bottom: 0;
-      width: 20px;
-      background: #000;
-      z-index: 9999;
     }
 
     /* ── Design tokens ── */
@@ -701,11 +693,6 @@
       <div class="footer__left">
         <!-- Nav + contacts -->
         <div class="footer__col-nav">
-          <!-- Artguide "А" logo mark -->
-          <svg class="footer__logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 165 230" fill="black" aria-hidden="true">
-            <polygon points="82.5,0 0,230 38,230 82.5,100 127,230 165,230"/>
-            <rect x="28" y="148" width="109" height="22"/>
-          </svg>
           <div class="footer__col-nav-top">
             <a href="/process" class="footer__nav-link">Процесс</a>
             <a href="/events" class="footer__nav-link">События</a>
