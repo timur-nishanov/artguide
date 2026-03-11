@@ -41,9 +41,18 @@
 
     /* ── Reset ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { min-height: 100%; border-left: 20px solid #000; }
+    html { min-height: 100%; }
+    html::before {
+      content: '';
+      position: fixed;
+      left: 0; top: 0; bottom: 0;
+      width: 20px;
+      background: #000;
+      z-index: 9999;
+    }
     body {
       min-height: 100vh;
+      margin-left: 20px;
       background: #fff;
       color: #000;
       font-family: 'RF Dewi', sans-serif;
