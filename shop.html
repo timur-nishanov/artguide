@@ -43,7 +43,14 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { min-height: 100%; }
     body {
-      min-height: 100vh;
+      overflow-x: hidden;
+      background: #fff;
+    }
+
+    /* ── Page scale wrapper (design base: 1728px) ── */
+    .page-wrapper {
+      width: 1728px;
+      transform-origin: top left;
       border-left: 20px solid #000;
       background: #fff;
       color: #000;
@@ -491,17 +498,10 @@
       margin-bottom: 16px;
     }
 
-    /* ── Responsive fallback for narrow screens ── */
-    @media (max-width: 1200px) {
-      .catalog { padding: 0 40px 60px 20px; flex-wrap: wrap; }
-      .card { width: calc(33.33% - 14px); min-width: 280px; }
-      .header__support { display: none; }
-      .footer__top { flex-wrap: wrap; gap: 32px; }
-      .footer__col-legal { width: 100%; }
-    }
   </style>
 </head>
 <body>
+<div class="page-wrapper">
 
   <!-- Notification bar -->
   <div class="notif-bar">
@@ -747,7 +747,19 @@
     </div>
   </footer>
 
+</div><!-- /.page-wrapper -->
+
   <script>
+    // ── Viewport scaling (base: 1728px) ──
+    var pageWrapper = document.querySelector('.page-wrapper');
+    function updateScale() {
+      var scale = window.innerWidth / 1728;
+      pageWrapper.style.transform = 'scale(' + scale + ')';
+      document.body.style.height = Math.ceil(pageWrapper.offsetHeight * scale) + 'px';
+    }
+    window.addEventListener('resize', updateScale);
+    updateScale();
+
     // Close notification bar
     document.querySelector('.notif-bar__close').addEventListener('click', function () {
       document.querySelector('.notif-bar').style.display = 'none';
