@@ -324,10 +324,21 @@
       flex: 1;
     }
 
+    /* ── Footer logo (white bg, above footer) ── */
+    .footer-logo {
+      padding: 230px 20px 0 20px;
+      background: #fff;
+    }
+    .footer-logo img {
+      display: block;
+      width: 165px;
+      height: 236px;
+    }
+
     /* ── Footer ── */
     .footer {
       background: var(--bg-input);
-      padding: 230px 20px 16px 20px;
+      padding: 16px 20px 16px 20px;
       display: flex;
       flex-direction: column;
       gap: 32px;
@@ -491,17 +502,6 @@
     }
     .footer__subscribe-btn:hover { background: #000; color: #fff; }
 
-    /* logo in footer */
-    .footer__logo-wrap {
-      width: 165px;
-      height: 236px;
-      flex-shrink: 0;
-    }
-    .footer__logo-wrap img {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
 
   </style>
 </head>
@@ -678,11 +678,13 @@
     </div>
   </section>
 
+  <!-- Footer logo (white background, 230px below stores) -->
+  <div class="footer-logo">
+    <img src="icons/logo.svg" alt="Артгид" />
+  </div>
+
   <!-- Footer -->
   <footer class="footer">
-    <div class="footer__logo-wrap">
-      <img src="icons/logo.svg" alt="Артгид" />
-    </div>
     <div class="footer__top">
       <div class="footer__left">
         <!-- Nav + contacts -->
