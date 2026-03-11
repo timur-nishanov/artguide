@@ -97,6 +97,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      background: none;
+      border: none;
+      padding: 0;
     }
     .notif-bar__close svg { display: block; }
 
@@ -516,7 +519,10 @@
   <div class="notif-bar">
     <span class="notif-bar__text">Вы находитесь на странице магазина ООО «Артгид». Продажа осуществляется отдельным юридическим лицом.</span>
     <button class="notif-bar__close" aria-label="Закрыть">
-      <img src="icons/burger-close.svg" width="20" height="20" alt="" style="filter:invert(1);" />
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="2" y1="2" x2="18" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="18" y1="2" x2="2" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
     </button>
   </div>
 
