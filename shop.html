@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Магазин — Артгид</title>
+  <style>
+    /* ── Fonts ── */
+    @font-face {
+      font-family: 'ApophisText';
+      src: url('fonts/ApophisText-Regular.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'RFDewi';
+      src: url('fonts/Russian Fonts - RFDewi-Semibold.otf') format('opentype');
+      font-weight: 600;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'RFDewi';
+      src: url('fonts/Russian Fonts - RFDewi-Ultrabold.otf') format('opentype');
+      font-weight: 800;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Kristolit';
+      src: url('fonts/Kristolit-BoldItalic.woff') format('woff');
+      font-weight: 700;
+      font-style: italic;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: #fff;
+      color: #000;
+      font-family: 'RFDewi', sans-serif;
+      font-weight: 600;
+      border-left: 20px solid #000;
+    }
+
+    /* ── Design tokens ── */
+    :root {
+      --accent: #0037FF;
+      --bg-input: #ededed;
+      --text-secondary: #a9a9a9;
+      --border-w: 2px;
+    }
+
+    /* ── Notification bar ── */
+    .notif-bar {
+      background: #000;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px 0 40px;
+      position: relative;
+    }
+    .notif-bar__text {
+      font-family: 'RFDewi', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 20px;
+      letter-spacing: 0.75px;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .notif-bar__close {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .notif-bar__close svg { display: block; }
+
+    /* ── Header ── */
+    .header {
+      border-bottom: var(--border-w) solid #000;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px 12px 40px;
+    }
+    .header__nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .header__nav-link {
+      font-family: 'ApophisText', sans-serif;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 24px;
+      letter-spacing: 1.2px;
+      color: #000;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .header__nav-link:hover { text-decoration: underline; }
+    .header__right {
+      display: flex;
+      align-items: center;
+      gap: 103px;
+    }
+    .header__support {
+      font-family: 'RFDewi', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 20px;
+      letter-spacing: 1px;
+      color: #000;
+      text-decoration: underline;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .header__support:hover { opacity: 0.7; }
+    .header__icons {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .header__icon-btn {
+      width: 24px;
+      height: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .header__icon-btn svg { display: block; }
+    .cart-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      font-family: 'RFDewi', sans-serif;
+      font-weight: 600;
+      border-radius: 50%;
+      width: 14px;
+      height: 14px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .cart-badge.visible { display: flex; }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 10px 20px 40px 40px;
+    }
+    .hero__title {
+      font-family: 'ApophisText', sans-serif;
+      font-weight: 400;
+      font-size: 64px;
+      line-height: 70px;
+      letter-spacing: 3.2px;
+      color: #000;
+      text-decoration: underline;
+      white-space: nowrap;
+    }
+
+    /* ── Catalog ── */
+    .catalog {
+      padding: 0 100px 80px 120px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      width: 390px;
+      flex-shrink: 0;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+    .card__image-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 390 / 480;
+      overflow: hidden;
+    }
+    .card__image-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      box-shadow: inset 0 0 0 0px var(--accent);
+      transition: box-shadow 0.2s ease;
+      pointer-events: none;
+    }
+    .card:hover .card__image-wrap::after {
+      box-shadow: inset 0 0 0 4px var(--accent);
+    }
+    .card__img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .card__bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      align-items: center;
+      width: 100%;
+    }
+    .card__text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      color: #000;
+    }
+    .card__issue {
+      font-family: 'ApophisText', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 20px;
+      letter-spacing: 1.95px;
+    }
+    .card__title {
+      font-family: 'RFDewi', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 20px;
+      letter-spacing: 1px;
+    }
+    .card__price {
+      font-family: 'RFDewi', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 20px;
+      letter-spacing: 0.75px;
+      text-decoration: underline;
+    }
+
+    /* ── Where to buy ── */
+    .where-to-buy {
+      padding: 0 20px 80px 40px;
+    }
+    .where-to-buy__heading {
+      font-family: 'ApophisText', sans-serif;
+      font-weight: 400;
+      font-size: 35px;
+      line-height: 45px;
+      letter-spacing: 1.75px;
+      color: #000;
+      text-decoration: underline;
+      margin-bottom: 0;
+      white-space: nowrap;
+    }
+    .stores-list {
+      width: 100%;
+    }
+    .store-row {
+      border-bottom: var(--border-w) solid #000;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 20px 20px 20px 0;
+    }
+    .store-row__name {
+      font-family: 'RFDewi', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 27px;
+      letter-spacing: 1.2px;
+      color: #000;
+      width: 529px;
+      flex-shrink: 0;
+    }
+    .store-row__addresses {
+      font-family: 'RFDewi', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 27px;
+      letter-spacing: 1.2px;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--bg-input);
+      padding: 16px 20px 16px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .footer__top {
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+    }
+    .footer__left {
+      display: flex;
+      flex: 1;
+      align-items: flex-start;
+    }
+    .footer__col-nav {
+      width: 407px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 409px;
+    }
+    .footer__col-nav-top {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .footer__col-nav-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      width: 210px;
+    }
+    .footer__nav-link {
+      font-family: 'RFDewi', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 32px;
+      letter-spacing: 1.2px;
+      color: #000;
+      text-decoration: none;
+      display: block;
+      height: 32px;
+      display: flex;
+      align-items: center;
+    }
+    .footer__nav-link--blue { color: var(--accent); }
+    .footer__nav-link:hover { opacity: 0.7; }
+
+    .footer__col-meta {
+      width: 336px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 409px;
+    }
+    .footer__col-meta-top {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 134px;
+    }
+    .footer__copyright {
+      font-family: 'RFDewi', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 32px;
+      letter-spacing: 1.2px;
+      color: #000;
+    }
+    .footer__socials {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      width: 126px;
+    }
+    .footer__lang-switch {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      font-family: 'RFDewi', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 24px;
+      letter-spacing: 1px;
+      color: #000;
+    }
+    .footer__lang-active { text-decoration: underline; }
+    .footer__lang-divider { padding: 0 2px; font-family: 'ApophisText', sans-serif; }
+
+    .footer__col-legal {
+      width: 692px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 409px;
+      font-family: 'RFDewi', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 20px;
+      letter-spacing: 0.75px;
+      color: #000;
+    }
+    .footer__legal-text {
+      flex: 1;
+    }
+    .footer__brand {
+      font-size: 15px;
+      line-height: 20px;
+    }
+    .footer__brand em {
+      font-family: 'Kristolit', serif;
+      font-weight: 700;
+      font-style: italic;
+    }
+
+    /* newsletter */
+    .footer__newsletter {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      width: 100%;
+    }
+    .footer__email-wrap {
+      flex: 1;
+      border-bottom: var(--border-w) solid #000;
+      height: 48px;
+      display: flex;
+      align-items: center;
+    }
+    .footer__email-input {
+      width: 100%;
+      background: none;
+      border: none;
+      outline: none;
+      font-family: 'RFDewi', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 32px;
+      letter-spacing: 1.2px;
+      color: var(--text-secondary);
+    }
+    .footer__email-input::placeholder { color: var(--text-secondary); }
+    .footer__subscribe-btn {
+      width: 353px;
+      height: 48px;
+      background: #fff;
+      border: 2px solid #000;
+      cursor: pointer;
+      font-family: 'RFDewi', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 32px;
+      letter-spacing: 1.2px;
+      color: #000;
+      text-transform: capitalize;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .footer__subscribe-btn:hover { background: #000; color: #fff; }
+
+    /* logo in footer */
+    .footer__logo {
+      width: 165px;
+      margin-bottom: 16px;
+    }
+
+    /* ── Responsive fallback for narrow screens ── */
+    @media (max-width: 1200px) {
+      .catalog { padding: 0 40px 60px 40px; flex-wrap: wrap; }
+      .card { width: calc(33.33% - 14px); min-width: 280px; }
+      .header__support { display: none; }
+      .footer__top { flex-wrap: wrap; gap: 32px; }
+      .footer__col-legal { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Notification bar -->
+  <div class="notif-bar">
+    <span class="notif-bar__text">Вы находитесь на странице магазина ООО «Артгид». Продажа осуществляется отдельным юридическим лицом.</span>
+    <button class="notif-bar__close" aria-label="Закрыть">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1L13 13M13 1L1 13" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <nav class="header__nav" aria-label="Основное меню">
+      <a href="/shop" class="header__nav-link">Магазин</a>
+      <a href="/process" class="header__nav-link">Процесс</a>
+      <a href="/events" class="header__nav-link">События</a>
+      <a href="/community" class="header__nav-link">Арт-сообщество</a>
+      <a href="/about" class="header__nav-link">Об Артгиде</a>
+    </nav>
+    <div class="header__right">
+      <a href="/support" class="header__support">
+        Поддержи искусство и «Артгид»!
+        <!-- arrow right -->
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M5 10H15M15 10L10.5 5.5M15 10L10.5 14.5" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <div class="header__icons">
+        <!-- Search -->
+        <button class="header__icon-btn" aria-label="Поиск">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10.5" cy="10.5" r="6.5" stroke="#000" stroke-width="2"/>
+            <path d="M15.5 15.5L20 20" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <!-- Cart -->
+        <button class="header__icon-btn" aria-label="Корзина" id="cart-btn">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 3H4.5L6.5 15H18.5L20.5 7H5.5" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="9" cy="19" r="1.5" fill="#000"/>
+            <circle cx="16" cy="19" r="1.5" fill="#000"/>
+          </svg>
+          <span class="cart-badge" id="cart-count">0</span>
+        </button>
+        <!-- Burger -->
+        <button class="header__icon-btn" aria-label="Меню">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 6H22M2 12H22M2 18H22" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1 class="hero__title">Магазин</h1>
+  </section>
+
+  <!-- Catalog -->
+  <section class="catalog" aria-label="Каталог изданий">
+
+    <a class="card" href="/shop/artguide-1" data-product-id="1" data-product-title="Артгид №1 — Искусство здесь и сейчас" data-product-price="550">
+      <div class="card__image-wrap">
+        <img
+          class="card__img"
+          src="https://www.figma.com/api/mcp/asset/f7eea280-57a9-48ec-99dd-3f49f709da17"
+          alt="Обложка журнала Артгид №1 — Искусство здесь и сейчас"
+        />
+      </div>
+      <div class="card__bottom">
+        <div class="card__text">
+          <span class="card__issue">Артгид №1</span>
+          <span class="card__title">Искусство здесь и сейчас: российские художники о времени, пространстве и границах возможного</span>
+          <span class="card__price">550 ₽</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="/shop/artguide-2" data-product-id="2" data-product-title="Артгид №1 — Современное искусство России" data-product-price="550">
+      <div class="card__image-wrap">
+        <img
+          class="card__img"
+          src="https://www.figma.com/api/mcp/asset/04e4bcb1-642d-4683-b75f-6a0463fa47c7"
+          alt="Обложка журнала Артгид — Современное искусство России"
+        />
+      </div>
+      <div class="card__bottom">
+        <div class="card__text">
+          <span class="card__issue">Артгид №1</span>
+          <span class="card__title">Современное искусство России</span>
+          <span class="card__price">550 ₽</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="/shop/artguide-3" data-product-id="3" data-product-title="Артгид №1 — Новая волна" data-product-price="550">
+      <div class="card__image-wrap">
+        <img
+          class="card__img"
+          src="https://www.figma.com/api/mcp/asset/d8f619fc-49d8-4b9f-87e5-cc506019a165"
+          alt="Обложка журнала Артгид — Новая волна"
+        />
+      </div>
+      <div class="card__bottom">
+        <div class="card__text">
+          <span class="card__issue">Артгид №1</span>
+          <span class="card__title">Новая волна: как молодые художники переосмысляют советское наследие в эпоху цифровой культуры</span>
+          <span class="card__price">550 ₽</span>
+        </div>
+      </div>
+    </a>
+
+  </section>
+
+  <!-- Where to buy offline -->
+  <section class="where-to-buy" aria-label="Где купить оффлайн">
+    <h2 class="where-to-buy__heading">где купить</h2>
+    <div class="stores-list" role="list">
+      <div class="store-row" role="listitem">
+        <span class="store-row__name">3L Gallery</span>
+        <div class="store-row__addresses">
+          <span>Москва, Льва Толстого, 23 к1</span>
+        </div>
+      </div>
+      <div class="store-row" role="listitem">
+        <span class="store-row__name">masters.dom</span>
+        <div class="store-row__addresses">
+          <span>Москва, Софийская набережная 34, стр. 5</span>
+          <span>Санкт-Петербург, Барочная, 6, стр. 1</span>
+        </div>
+      </div>
+      <div class="store-row" role="listitem">
+        <span class="store-row__name">Гостиная Полины Павлович</span>
+        <div class="store-row__addresses">
+          <span>Москва, Брюсов переулок, 2/14, стр. 3</span>
+        </div>
+      </div>
+      <div class="store-row" role="listitem">
+        <span class="store-row__name">Soma</span>
+        <div class="store-row__addresses">
+          <span>Москва, Петровский бульвар, 14</span>
+        </div>
+      </div>
+      <div class="store-row" role="listitem">
+        <span class="store-row__name">«Кривоколенный 9с3»</span>
+        <div class="store-row__addresses">
+          <span>Москва, Кривоколенный, 9, стр. 3</span>
+        </div>
+      </div>
+      <div class="store-row" role="listitem">
+        <span class="store-row__name">МОХ</span>
+        <div class="store-row__addresses">
+          <span>Москва, Старомонетный переулок, 12</span>
+        </div>
+      </div>
+      <div class="store-row" role="listitem">
+        <span class="store-row__name">LOBBY</span>
+        <div class="store-row__addresses">
+          <span>Москва, Варварка, 3</span>
+        </div>
+      </div>
+      <div class="store-row" role="listitem">
+        <span class="store-row__name">The Dar Store</span>
+        <div class="store-row__addresses">
+          <span>Москва, Малая Никитская, 8</span>
+        </div>
+      </div>
+      <div class="store-row" role="listitem">
+        <span class="store-row__name">Bosco Casa</span>
+        <div class="store-row__addresses">
+          <span>Москва, Неглинная, 13</span>
+        </div>
+      </div>
+      <div class="store-row" role="listitem">
+        <span class="store-row__name">Coffee Buro</span>
+        <div class="store-row__addresses">
+          <span>Москва, Славянская площадь, 2/5/4, стр. 3</span>
+          <span>Москва, Ленинградский пр-кт, 39, стр. 79</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div class="footer__left">
+        <!-- Nav + contacts -->
+        <div class="footer__col-nav">
+          <div class="footer__col-nav-top">
+            <a href="/process" class="footer__nav-link">Процесс</a>
+            <a href="/events" class="footer__nav-link">События</a>
+            <a href="/community" class="footer__nav-link">Арт-сообщество</a>
+            <a href="/about" class="footer__nav-link">Об Артгиде</a>
+          </div>
+          <div class="footer__col-nav-bottom">
+            <a href="mailto:info@artguide.ru" class="footer__nav-link footer__nav-link--blue">info@artguide.ru</a>
+            <span class="footer__nav-link">+7 495 280-74-46</span>
+          </div>
+        </div>
+
+        <!-- Copyright + socials + lang -->
+        <div class="footer__col-meta">
+          <div class="footer__col-meta-top">
+            <span class="footer__copyright">© 2009—2026 Артгид. 18+</span>
+            <div class="footer__socials">
+              <a href="https://t.me/artguide" class="footer__nav-link footer__nav-link--blue">Telegram</a>
+              <a href="https://vk.com/artguide" class="footer__nav-link footer__nav-link--blue">Vkontakte</a>
+            </div>
+          </div>
+          <div class="footer__lang-switch">
+            <span class="footer__lang-active">Ru</span>
+            <span class="footer__lang-divider">&nbsp;/&nbsp;</span>
+            <a href="/en" class="footer__nav-link" style="font-size:20px;line-height:20px;height:auto;">Eng</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legal text -->
+      <div class="footer__col-legal">
+        <p class="footer__legal-text">
+          Свидетельство о регистрации СМИ ЭЛ № ФС 77 — 77989 от 03 марта 2020 г. Выдано Федеральной службой по надзору в сфере связи, информационных технологий и массовых коммуникаций.<br><br>
+          Учредитель — Автономная некоммерческая организация поддержки и развития культуры и искусства «Артгид» (ОГРН 1197700009451).<br><br>
+          Главный редактор — Кравцова М.В.
+        </p>
+        <p class="footer__brand">Сетевое издание <em>artguide.com</em></p>
+      </div>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="footer__newsletter">
+      <div class="footer__email-wrap">
+        <input
+          class="footer__email-input"
+          type="email"
+          placeholder="введите свой E-mail"
+          aria-label="Ваш email для подписки на рассылку"
+        />
+      </div>
+      <button class="footer__subscribe-btn" type="button">Подписаться на рассылку</button>
+    </div>
+  </footer>
+
+  <script>
+    // Close notification bar
+    document.querySelector('.notif-bar__close').addEventListener('click', function () {
+      document.querySelector('.notif-bar').style.display = 'none';
+    });
+
+    // Cart count (placeholder logic)
+    const cartCount = document.getElementById('cart-count');
+    const cartBadge = document.getElementById('cart-count');
+
+    document.querySelectorAll('.card').forEach(function (card) {
+      card.addEventListener('click', function (e) {
+        e.preventDefault();
+        // Will open product page — placeholder for add-to-cart demo
+      });
+    });
+  </script>
+
+</body>
+</html>
