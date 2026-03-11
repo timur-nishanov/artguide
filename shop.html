@@ -6,29 +6,37 @@
   <title>Магазин — Артгид</title>
   <style>
     /* ── Fonts ── */
+    /* Internal name: "Apophis Text", style: Regular, OS/2 weight: 400 */
     @font-face {
-      font-family: 'ApophisText';
+      font-family: 'Apophis Text';
       src: url('fonts/ApophisText-Regular.woff') format('woff');
       font-weight: 400;
       font-style: normal;
+      font-display: swap;
     }
+    /* Internal name: "RF Dewi Semibold", style: Regular, OS/2 weight: 600 */
     @font-face {
-      font-family: 'RFDewi';
-      src: url('fonts/Russian Fonts - RFDewi-Semibold.otf') format('opentype');
+      font-family: 'RF Dewi';
+      src: url('fonts/Russian%20Fonts%20-%20RFDewi-Semibold.otf') format('opentype');
       font-weight: 600;
       font-style: normal;
+      font-display: swap;
     }
+    /* Internal name: "RF Dewi Ultrabold", style: Regular, OS/2 weight: 800 */
     @font-face {
-      font-family: 'RFDewi';
-      src: url('fonts/Russian Fonts - RFDewi-Ultrabold.otf') format('opentype');
+      font-family: 'RF Dewi';
+      src: url('fonts/Russian%20Fonts%20-%20RFDewi-Ultrabold.otf') format('opentype');
       font-weight: 800;
       font-style: normal;
+      font-display: swap;
     }
+    /* Internal name: "Kristolit", style: Bold Italic, OS/2 weight: 700 */
     @font-face {
       font-family: 'Kristolit';
       src: url('fonts/Kristolit-BoldItalic.woff') format('woff');
       font-weight: 700;
       font-style: italic;
+      font-display: swap;
     }
 
     /* ── Reset ── */
@@ -37,7 +45,7 @@
     body {
       background: #fff;
       color: #000;
-      font-family: 'RFDewi', sans-serif;
+      font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       border-left: 20px solid #000;
     }
@@ -60,7 +68,7 @@
       position: relative;
     }
     .notif-bar__text {
-      font-family: 'RFDewi', sans-serif;
+      font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       font-size: 15px;
       line-height: 20px;
@@ -99,7 +107,7 @@
       gap: 20px;
     }
     .header__nav-link {
-      font-family: 'ApophisText', sans-serif;
+      font-family: 'Apophis Text', sans-serif;
       font-weight: 400;
       font-size: 24px;
       line-height: 24px;
@@ -115,7 +123,7 @@
       gap: 103px;
     }
     .header__support {
-      font-family: 'RFDewi', sans-serif;
+      font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       font-size: 20px;
       line-height: 20px;
@@ -153,7 +161,7 @@
       background: var(--accent);
       color: #fff;
       font-size: 10px;
-      font-family: 'RFDewi', sans-serif;
+      font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       border-radius: 50%;
       width: 14px;
@@ -169,7 +177,7 @@
       padding: 10px 20px 40px 40px;
     }
     .hero__title {
-      font-family: 'ApophisText', sans-serif;
+      font-family: 'Apophis Text', sans-serif;
       font-weight: 400;
       font-size: 64px;
       line-height: 70px;
@@ -238,21 +246,21 @@
       color: #000;
     }
     .card__issue {
-      font-family: 'ApophisText', sans-serif;
+      font-family: 'Apophis Text', sans-serif;
       font-weight: 400;
       font-size: 15px;
       line-height: 20px;
       letter-spacing: 1.95px;
     }
     .card__title {
-      font-family: 'RFDewi', sans-serif;
+      font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       font-size: 20px;
       line-height: 20px;
       letter-spacing: 1px;
     }
     .card__price {
-      font-family: 'RFDewi', sans-serif;
+      font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       font-size: 15px;
       line-height: 20px;
@@ -265,7 +273,7 @@
       padding: 0 20px 80px 40px;
     }
     .where-to-buy__heading {
-      font-family: 'ApophisText', sans-serif;
+      font-family: 'Apophis Text', sans-serif;
       font-weight: 400;
       font-size: 35px;
       line-height: 45px;
@@ -286,7 +294,7 @@
       padding: 20px 20px 20px 0;
     }
     .store-row__name {
-      font-family: 'RFDewi', sans-serif;
+      font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       font-size: 24px;
       line-height: 27px;
@@ -296,7 +304,7 @@
       flex-shrink: 0;
     }
     .store-row__addresses {
-      font-family: 'RFDewi', sans-serif;
+      font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       font-size: 24px;
       line-height: 27px;
@@ -346,7 +354,7 @@
       width: 210px;
     }
     .footer__nav-link {
-      font-family: 'RFDewi', sans-serif;
+      font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       font-size: 24px;
       line-height: 32px;
@@ -376,7 +384,7 @@
       height: 134px;
     }
     .footer__copyright {
-      font-family: 'RFDewi', sans-serif;
+      font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       font-size: 24px;
       line-height: 32px;
@@ -393,7 +401,7 @@
       display: flex;
       align-items: center;
       gap: 0;
-      font-family: 'RFDewi', sans-serif;
+      font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       font-size: 20px;
       line-height: 24px;
@@ -401,7 +409,7 @@
       color: #000;
     }
     .footer__lang-active { text-decoration: underline; }
-    .footer__lang-divider { padding: 0 2px; font-family: 'ApophisText', sans-serif; }
+    .footer__lang-divider { padding: 0 2px; font-family: 'Apophis Text', sans-serif; }
 
     .footer__col-legal {
       width: 692px;
@@ -410,7 +418,7 @@
       flex-direction: column;
       justify-content: space-between;
       height: 409px;
-      font-family: 'RFDewi', sans-serif;
+      font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       font-size: 15px;
       line-height: 20px;
@@ -449,7 +457,7 @@
       background: none;
       border: none;
       outline: none;
-      font-family: 'RFDewi', sans-serif;
+      font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       font-size: 24px;
       line-height: 32px;
@@ -463,7 +471,7 @@
       background: #fff;
       border: 2px solid #000;
       cursor: pointer;
-      font-family: 'RFDewi', sans-serif;
+      font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       font-size: 24px;
       line-height: 32px;
