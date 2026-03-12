@@ -280,6 +280,7 @@
     .product-chars__body {
       display: none;
       flex-direction: column;
+      border-bottom: 2px solid #000;
     }
     .product-chars__body.open { display: flex; }
     .spec-row {
@@ -676,6 +677,20 @@
       }
     }
   }, { passive: false });
+
+  // ── Smooth page scroll (window) ──
+  var targetPageY = window.scrollY;
+  var pageRafId = null;
+  window.addEventListener('wheel', function (e) {
+    // Only handle events not already intercepted by columns
+    targetPageY = clamp(targetPageY + e.deltaY, 0, document.body.scrollHeight - window.innerHeight);
+    if (!pageRafId) pageRafId = requestAnimationFrame(tickPage);
+  }, { passive: true });
+  function tickPage() {
+    var d = targetPageY - window.scrollY;
+    if (Math.abs(d) > 0.5) { window.scrollBy(0, d * EASE); pageRafId = requestAnimationFrame(tickPage); }
+    else { window.scrollTo(0, targetPageY); pageRafId = null; }
+  }
 
   // Характеристики accordion
   var charsToggle = document.getElementById('chars-toggle');
