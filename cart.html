@@ -353,16 +353,24 @@
     .calc-promo-wrap {
       display: flex;
       flex-direction: column;
+      gap: 10px;
     }
     .calc-promo {
       border-bottom: var(--border-w) solid #000;
-      height: 48px;
+      padding: 10px 0;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
     .calc-promo--success { border-bottom-color: #2AC43C; }
     .calc-promo--error   { border-bottom-color: #FF0000; }
+    .calc-promo__field {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
     .calc-promo__input {
       flex: 1;
       min-width: 0;
@@ -377,29 +385,39 @@
       color: var(--text-secondary);
     }
     .calc-promo__input::placeholder { color: var(--text-secondary); }
-    .calc-promo__icon { flex-shrink: 0; display: block; }
-    .calc-promo__change {
+    .calc-promo__input:not(:placeholder-shown) { color: #000; }
+    .calc-promo--success .calc-promo__input { color: #2AC43C; }
+    .calc-promo--error   .calc-promo__input { color: #FF0000; }
+    .calc-promo__check-bg {
+      width: 24px;
+      height: 24px;
       flex-shrink: 0;
-      background: none;
-      border: none;
+      background: #2AC43C;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .calc-promo__btn {
+      flex-shrink: 0;
+      background: #fff;
+      border: 2px solid #000;
       cursor: pointer;
-      padding: 0;
+      padding: 8px 10px;
       font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       font-size: 20px;
       line-height: 24px;
       letter-spacing: 1px;
-      color: var(--text-secondary);
+      color: #000;
       white-space: nowrap;
     }
-    .calc-promo__change:hover { opacity: 0.7; }
+    .calc-promo__btn:hover { opacity: 0.7; }
     .calc-promo__msg {
-      margin-top: 10px;
       font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
-      font-size: 15px;
-      line-height: 20px;
-      letter-spacing: 0.75px;
+      font-size: 20px;
+      line-height: 24px;
+      letter-spacing: 1px;
     }
     .calc-promo__msg--success { color: #2AC43C; }
     .calc-promo__msg--error   { color: #FF0000; }
@@ -688,11 +706,16 @@
         </div>
         <div class="calc-promo-wrap">
           <div class="calc-promo" id="calc-promo">
-            <input class="calc-promo__input" id="promo-input" type="text" placeholder="промокод" aria-label="Промокод" />
-            <svg class="calc-promo__icon" id="promo-check" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none">
-              <path d="M16.6666 5L7.49992 14.1667L3.33325 10" stroke="#2AC43C" stroke-width="2"/>
-            </svg>
-            <button class="calc-promo__change" id="promo-change-btn" type="button" style="display:none">изменить</button>
+            <div class="calc-promo__field">
+              <input class="calc-promo__input" id="promo-input" type="text" placeholder="промокод" aria-label="Промокод" />
+              <div class="calc-promo__check-bg" id="promo-check" style="display:none">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16.6666 5L7.49992 14.1667L3.33325 10" stroke="white" stroke-width="2"/>
+                </svg>
+              </div>
+            </div>
+            <button class="calc-promo__btn" id="promo-apply-btn" type="button" style="display:none">применить</button>
+            <button class="calc-promo__btn" id="promo-change-btn" type="button" style="display:none">изменить</button>
           </div>
           <span class="calc-promo__msg" id="promo-msg" style="display:none"></span>
         </div>
@@ -861,28 +884,30 @@
   var promoInput = document.getElementById('promo-input');
   var promoArea = document.getElementById('calc-promo');
   var promoCheckIcon = document.getElementById('promo-check');
+  var promoApplyBtn = document.getElementById('promo-apply-btn');
   var promoChangeBtn = document.getElementById('promo-change-btn');
   var promoMsg = document.getElementById('promo-msg');
 
   function applyPromo() {
     var code = promoInput.value.trim().toUpperCase();
     if (!code) return;
+    promoApplyBtn.style.display = 'none';
+    promoInput.disabled = true;
     if (code === VALID_PROMO) {
       promoDiscount = PROMO_AMOUNT;
       promoArea.classList.remove('calc-promo--error');
       promoArea.classList.add('calc-promo--success');
-      promoCheckIcon.style.display = 'block';
+      promoCheckIcon.style.display = 'flex';
       promoChangeBtn.style.display = 'block';
       promoMsg.style.display = 'block';
       promoMsg.textContent = 'успешный промокод';
       promoMsg.className = 'calc-promo__msg calc-promo__msg--success';
-      promoInput.disabled = true;
     } else {
       promoDiscount = 0;
       promoArea.classList.remove('calc-promo--success');
       promoArea.classList.add('calc-promo--error');
       promoCheckIcon.style.display = 'none';
-      promoChangeBtn.style.display = 'none';
+      promoChangeBtn.style.display = 'block';
       promoMsg.style.display = 'block';
       promoMsg.textContent = 'неверный промокод';
       promoMsg.className = 'calc-promo__msg calc-promo__msg--error';
@@ -896,17 +921,23 @@
     promoInput.value = '';
     promoInput.disabled = false;
     promoInput.focus();
+    promoApplyBtn.style.display = 'none';
+    promoChangeBtn.style.display = 'none';
     promoArea.classList.remove('calc-promo--success', 'calc-promo--error');
     promoCheckIcon.style.display = 'none';
-    promoChangeBtn.style.display = 'none';
     promoMsg.style.display = 'none';
     renderTotals();
     updateScale();
   }
 
+  promoInput.addEventListener('input', function() {
+    var hasText = promoInput.value.trim().length > 0;
+    promoApplyBtn.style.display = hasText ? 'block' : 'none';
+  });
   promoInput.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') applyPromo();
   });
+  promoApplyBtn.addEventListener('click', applyPromo);
   promoChangeBtn.addEventListener('click', resetPromo);
 
   // Initial render
