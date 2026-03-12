@@ -893,6 +893,8 @@
     if (!code) return;
     promoApplyBtn.style.display = 'none';
     promoInput.disabled = true;
+    promoInput.style.flex = '0 0 auto';
+    promoInput.setAttribute('size', promoInput.value.length);
     if (code === VALID_PROMO) {
       promoDiscount = PROMO_AMOUNT;
       promoArea.classList.remove('calc-promo--error');
@@ -920,6 +922,8 @@
     promoDiscount = 0;
     promoInput.value = '';
     promoInput.disabled = false;
+    promoInput.style.flex = '';
+    promoInput.removeAttribute('size');
     promoInput.focus();
     promoApplyBtn.style.display = 'none';
     promoChangeBtn.style.display = 'none';
