@@ -133,7 +133,7 @@
     .header__icon-btn svg { display: block; }
 
     /* ── Hero ── */
-    .hero { padding: 10px 20px 40px 40px; }
+    .hero { padding: 10px 20px 100px 20px; }
     .hero__title {
       font-family: 'Apophis Text', sans-serif;
       font-weight: 400;
@@ -151,7 +151,7 @@
     .checkout-body {
       display: flex;
       gap: 80px;
-      padding: 0 20px 200px 40px;
+      padding: 0 20px 200px 20px;
       align-items: flex-start;
     }
 
@@ -161,7 +161,7 @@
       min-width: 0;
       display: flex;
       flex-direction: column;
-      gap: 50px;
+      gap: 100px;
     }
     .checkout-section {
       display: flex;
@@ -755,8 +755,8 @@
   var notifBar    = document.querySelector('.notif-bar');
   var calcPanel   = document.getElementById('checkout-calc');
 
-  // hero = pt(10) + title-lh(70) + pb(40)
-  var HERO_H = 120;
+  // hero = pt(10) + title-lh(70) + pb(100)
+  var HERO_H = 180;
 
   function getHeaderH() {
     return (notifBar.style.display === 'none' ? 0 : 32) + 56;
@@ -766,8 +766,7 @@
     var scale   = window.innerWidth / 1728;
     pageWrapper.style.transform = 'scale(' + scale + ')';
     var headerH = getHeaderH();
-    var calcH   = Math.floor((window.innerHeight - 20) / scale) - headerH - HERO_H;
-    calcH = Math.max(calcH, 680); // never smaller than content
+    var calcH = Math.floor((window.innerHeight - 20) / scale) - headerH - HERO_H;
     calcPanel.style.height = calcH + 'px';
     calcPanel.style.top    = headerH + 'px';
     document.body.style.height = Math.ceil(pageWrapper.offsetHeight * scale) + 'px';
