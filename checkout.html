@@ -229,7 +229,7 @@
     .checkout-calc__top {
       display: flex;
       flex-direction: column;
-      gap: 40px;
+      gap: 20px;
     }
 
     /* Sum rows */
@@ -332,7 +332,6 @@
     }
     .calc-checkbox--checked { background: #000; }
     .calc-checkbox__check { display: none; }
-    .calc-checkbox--checked .calc-checkbox__check { display: block; }
     .calc-checkbox-label {
       font-family: 'Apophis Text', sans-serif;
       font-weight: 400;
@@ -344,18 +343,19 @@
     }
     .calc-checkbox-label a {
       color: #000;
-      text-underline-offset: 2px;
+      text-decoration-thickness: 5%;
+      text-underline-offset: 12.5%;
     }
 
     /* ── CTA area ── */
     .checkout-calc__cta {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
-      gap: 10px;
+      gap: 20px;
     }
     .pay-btn {
-      width: 100%;
+      flex: 1;
       background: #000;
       border: none;
       cursor: pointer;
@@ -378,15 +378,13 @@
       display: flex;
       align-items: center;
       gap: 20px;
+      flex-shrink: 0;
     }
-
-    /* ── Footer logo ── */
-    .footer-logo { padding: 32px 0 32px 40px; }
 
     /* ── Footer ── */
     .footer {
       background: var(--bg-input);
-      padding: 16px 20px 16px 40px;
+      padding: 16px 20px 16px 20px;
       display: flex;
       flex-direction: column;
       gap: 32px;
@@ -550,11 +548,7 @@
     </div>
     <div class="header__icons">
       <a href="cart.html" class="header__icon-btn" aria-label="Корзина">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 3H4.5L6.5 16H18L20 7H7" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="9" cy="20" r="1.5" fill="black"/>
-          <circle cx="16" cy="20" r="1.5" fill="black"/>
-        </svg>
+        <img src="icons/cart.svg" width="24" height="24" alt="" />
       </a>
     </div>
   </header>
@@ -694,13 +688,11 @@
 
   </div><!-- /.checkout-body -->
 
-  <!-- Footer logo -->
-  <div class="footer-logo">
-    <img src="icons/logo.svg" alt="Артгид" />
-  </div>
-
   <!-- Footer -->
   <footer class="footer">
+    <div>
+      <img src="icons/logo.svg" alt="Артгид" />
+    </div>
     <div class="footer__top">
       <div class="footer__left">
         <div class="footer__col-nav">
