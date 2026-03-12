@@ -151,7 +151,11 @@
     .product-left {
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       padding-top: 40px;
+      padding-bottom: 40px;
+      overflow: hidden;
+      /* height set via JS */
     }
     .product-meta {
       display: flex;
@@ -180,10 +184,7 @@
       letter-spacing: 0.75px;
       color: var(--text-secondary);
     }
-    /* CTA aligned with "Характеристики" section in center col
-       meta ends at ~40(pad) + 330(meta height) = 370px
-       CTA target: 907px from top → margin-top: 907 - 370 = 537px */
-    .product-cta { margin-top: 537px; }
+    .product-cta { /* pushed to bottom via justify-content: space-between on parent */ }
     .product-buy-btn {
       display: block;
       width: 100%;
@@ -208,7 +209,12 @@
       flex-direction: column;
       gap: 48px;
       padding-top: 40px;
+      padding-bottom: 40px;
+      overflow-y: auto;
+      scrollbar-width: none;
+      /* height set via JS */
     }
+    .product-content::-webkit-scrollbar { display: none; }
 
     .product-title {
       display: flex;
@@ -271,9 +277,7 @@
       flex-shrink: 0;
       width: 20px;
       height: 20px;
-      transition: transform 0.2s ease;
     }
-    .product-chars__chevron.open { transform: rotate(180deg); }
     .product-chars__body {
       display: none;
       flex-direction: column;
@@ -282,29 +286,28 @@
     .product-chars__body.open { display: flex; }
     .spec-row {
       display: flex;
-      align-items: flex-start;
-      gap: 20px;
-      padding: 10px 0;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
       border-top: var(--border-w) solid #000;
     }
     .spec-row:first-child { border-top: none; }
     .spec-row__label {
-      width: 200px;
-      flex-shrink: 0;
       font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
-      font-size: 15px;
-      line-height: 20px;
-      letter-spacing: 0.75px;
-      color: var(--text-secondary);
+      font-size: 20px;
+      line-height: 24px;
+      letter-spacing: 1px;
+      color: #000;
     }
     .spec-row__value {
       font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
-      font-size: 15px;
-      line-height: 20px;
-      letter-spacing: 0.75px;
+      font-size: 20px;
+      line-height: 24px;
+      letter-spacing: 1px;
       color: #000;
+      text-align: right;
     }
 
     /* Author bio */
@@ -333,7 +336,14 @@
     }
 
     /* ── Right column: stacked images (692×710px each) ── */
-    .product-images { display: flex; flex-direction: column; }
+    .product-images {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      scrollbar-width: none;
+      /* height set via JS */
+    }
+    .product-images::-webkit-scrollbar { display: none; }
     .product-images__img {
       display: block;
       width: 100%;
@@ -441,42 +451,40 @@
       <div class="product-chars">
         <button class="product-chars__toggle" id="chars-toggle" aria-expanded="false" aria-controls="chars-body">
           <span class="product-chars__label">Характеристики</span>
-          <svg class="product-chars__chevron" id="chars-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 7.5L10 12.5L15 7.5" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          <img class="product-chars__chevron" id="chars-icon" src="icons/chevron-down.svg" width="20" height="20" alt="" />
         </button>
         <div class="product-chars__body" id="chars-body" role="region" aria-labelledby="chars-toggle">
           <div class="spec-row">
-            <span class="spec-row__label">Количество страниц</span>
-            <span class="spec-row__value">290</span>
+            <span class="spec-row__label">Формат</span>
+            <span class="spec-row__value">200 × 260 мм</span>
           </div>
           <div class="spec-row">
-            <span class="spec-row__label">Печать</span>
-            <span class="spec-row__value">4+4</span>
+            <span class="spec-row__label">Страниц</span>
+            <span class="spec-row__value">320</span>
           </div>
           <div class="spec-row">
             <span class="spec-row__label">Тираж</span>
-            <span class="spec-row__value">3 000 экз</span>
+            <span class="spec-row__value">2 000 экз.</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-row__label">Бумага</span>
+            <span class="spec-row__value">офсет, 130 г</span>
           </div>
           <div class="spec-row">
             <span class="spec-row__label">Переплёт</span>
-            <span class="spec-row__value">мягкий</span>
+            <span class="spec-row__value">твёрдый</span>
           </div>
           <div class="spec-row">
             <span class="spec-row__label">Год</span>
             <span class="spec-row__value">2023</span>
           </div>
           <div class="spec-row">
-            <span class="spec-row__label">Издатель</span>
+            <span class="spec-row__label">Издательство</span>
             <span class="spec-row__value">Музей «Гараж»</span>
           </div>
           <div class="spec-row">
             <span class="spec-row__label">Серия</span>
             <span class="spec-row__value">ГАРАЖ.txt</span>
-          </div>
-          <div class="spec-row">
-            <span class="spec-row__label">ISBN</span>
-            <span class="spec-row__value">978-5-907539-25-3</span>
           </div>
         </div>
       </div>
@@ -562,18 +570,86 @@
 <script>
   // ── Viewport scaling (base: 1728px) ──
   var pageWrapper = document.querySelector('.page-wrapper');
+  var productLeft = document.querySelector('.product-left');
+  var productContent = document.querySelector('.product-content');
+  var productImages = document.querySelector('.product-images');
+  var notifBar = document.querySelector('.notif-bar');
+
+  function getHeaderH() {
+    // notif(32) + header(56) in 1728px coordinate space
+    return (notifBar.style.display === 'none' ? 0 : 32) + 56;
+  }
+
   function updateScale() {
     var scale = window.innerWidth / 1728;
     pageWrapper.style.transform = 'scale(' + scale + ')';
     document.body.style.height = Math.ceil(pageWrapper.offsetHeight * scale) + 'px';
+    // Set column heights to fill viewport below the header
+    var colH = Math.floor(window.innerHeight / scale) - getHeaderH();
+    productLeft.style.height = colH + 'px';
+    productContent.style.height = colH + 'px';
+    productImages.style.height = colH + 'px';
   }
   window.addEventListener('resize', updateScale);
   updateScale();
 
   // Close notification bar
   document.querySelector('.notif-bar__close').addEventListener('click', function () {
-    document.querySelector('.notif-bar').style.display = 'none';
+    notifBar.style.display = 'none';
+    updateScale(); // recalculate heights after notif hidden
   });
+
+  // ── Independent column scrolling with chain behaviour ──
+  function atBottom(el) { return el.scrollTop + el.clientHeight >= el.scrollHeight - 2; }
+  function atTop(el) { return el.scrollTop <= 0; }
+
+  // Center column: intercept wheel, chain to images at boundaries
+  productContent.addEventListener('wheel', function (e) {
+    var dy = e.deltaY;
+    if (dy > 0) {
+      if (!atBottom(productContent)) {
+        e.preventDefault();
+        productContent.scrollTop += dy;
+      } else if (!atBottom(productImages)) {
+        e.preventDefault();
+        productImages.scrollTop += dy;
+      }
+      // both at bottom → let page scroll through to footer
+    } else {
+      if (!atTop(productContent)) {
+        e.preventDefault();
+        productContent.scrollTop += dy;
+      } else if (!atTop(productImages)) {
+        e.preventDefault();
+        productImages.scrollTop += dy;
+      }
+      // both at top → let page scroll through
+    }
+  }, { passive: false });
+
+  // Images column: intercept wheel, chain to center at boundaries
+  productImages.addEventListener('wheel', function (e) {
+    var dy = e.deltaY;
+    if (dy > 0) {
+      if (!atBottom(productImages)) {
+        e.preventDefault();
+        productImages.scrollTop += dy;
+      } else if (!atBottom(productContent)) {
+        e.preventDefault();
+        productContent.scrollTop += dy;
+      }
+      // both at bottom → let page scroll through to footer
+    } else {
+      if (!atTop(productImages)) {
+        e.preventDefault();
+        productImages.scrollTop += dy;
+      } else if (!atTop(productContent)) {
+        e.preventDefault();
+        productContent.scrollTop += dy;
+      }
+      // both at top → let page scroll through
+    }
+  }, { passive: false });
 
   // Характеристики accordion
   var charsToggle = document.getElementById('chars-toggle');
@@ -581,7 +657,7 @@
   var charsIcon = document.getElementById('chars-icon');
   charsToggle.addEventListener('click', function () {
     var isOpen = charsBody.classList.toggle('open');
-    charsIcon.classList.toggle('open', isOpen);
+    charsIcon.src = isOpen ? 'icons/chevron-up.svg' : 'icons/chevron-down.svg';
     charsToggle.setAttribute('aria-expanded', isOpen);
   });
 </script>
