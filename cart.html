@@ -148,7 +148,7 @@
 
     /* ── Hero ── */
     .hero {
-      padding: 10px 20px 40px 40px;
+      padding: 10px 20px 100px 40px;
     }
     .hero__title {
       font-family: 'Apophis Text', sans-serif;
@@ -303,6 +303,8 @@
     /* ── Empty state ── */
     .cart-empty {
       display: none;
+      align-items: center;
+      justify-content: center;
       font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       font-size: 24px;
@@ -310,9 +312,8 @@
       letter-spacing: 1.2px;
       color: var(--text-secondary);
       text-align: center;
-      padding: 120px 0;
     }
-    .cart-empty.visible { display: block; }
+    .cart-empty.visible { display: flex; }
 
     /* ── Calculation panel ── */
     .cart-calc {
@@ -595,7 +596,7 @@
           <div class="cart-item__img-wrap">
             <img
               class="cart-item__img"
-              src="https://www.figma.com/api/mcp/asset/2f16207f-d544-485f-ba4a-b787ef84f924"
+              src="https://www.figma.com/api/mcp/asset/94751bf8-8185-4639-9841-7cd82c21046b"
               alt="Обложка книги"
             />
           </div>
@@ -723,6 +724,9 @@
   var pageWrapper = document.querySelector('.page-wrapper');
   var notifBar = document.querySelector('.notif-bar');
   var cartCalc = document.getElementById('cart-calc');
+  var cartItemsEl = document.getElementById('cart-items');
+  // hero = pt(10) + title(70) + pb(100)
+  var HERO_H = 180;
 
   function getHeaderH() {
     return (notifBar.style.display === 'none' ? 0 : 32) + 56;
@@ -731,11 +735,13 @@
   function updateScale() {
     var scale = window.innerWidth / 1728;
     pageWrapper.style.transform = 'scale(' + scale + ')';
-    // Set calc panel height to fill viewport
-    var calcH = Math.floor(window.innerHeight / scale) - getHeaderH();
+    var headerH = getHeaderH();
+    // Calc panel fills from header bottom to viewport bottom
+    var calcH = Math.floor(window.innerHeight / scale) - headerH;
     cartCalc.style.height = calcH + 'px';
-    // Update sticky top (in 1728px coordinate space)
-    cartCalc.style.top = getHeaderH() + 'px';
+    cartCalc.style.top = headerH + 'px';
+    // Items area min-height: viewport space available below hero (for empty state centering)
+    cartItemsEl.style.minHeight = (calcH - HERO_H) + 'px';
     document.body.style.height = Math.ceil(pageWrapper.offsetHeight * scale) + 'px';
   }
   window.addEventListener('resize', updateScale);
