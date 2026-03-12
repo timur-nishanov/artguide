@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>От стен до сцен — Магазин — Артгид</title>
+  <style>
+    /* ── Fonts ── */
+    @font-face { font-family: 'Apophis Text'; src: url('fonts/ApophisText-Regular.woff') format('woff'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'RF Dewi'; src: url('fonts/Russian%20Fonts%20-%20RFDewi-Semibold.otf') format('opentype'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'RF Dewi'; src: url('fonts/Russian%20Fonts%20-%20RFDewi-Ultrabold.otf') format('opentype'); font-weight: 800; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Kristolit'; src: url('fonts/Kristolit-BoldItalic.woff') format('woff'); font-weight: 700; font-style: italic; font-display: swap; }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { min-height: 100%; }
+    body { overflow-x: hidden; background: #fff; }
+
+    /* ── Page scale wrapper (design base: 1728px) ── */
+    .page-wrapper {
+      width: 1728px;
+      transform-origin: top left;
+      border-left: 20px solid #000;
+      background: #fff;
+      color: #000;
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+    }
+
+    /* ── Design tokens ── */
+    :root {
+      --accent: #0037FF;
+      --bg-input: #ededed;
+      --text-secondary: #a9a9a9;
+      --border-w: 2px;
+    }
+
+    /* ── Notification bar ── */
+    .notif-bar {
+      background: #000;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px 0 20px;
+      position: relative;
+    }
+    .notif-bar__text {
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 20px;
+      letter-spacing: 0.75px;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .notif-bar__close {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .notif-bar__close svg { display: block; }
+
+    /* ── Header ── */
+    .header {
+      border-bottom: var(--border-w) solid #000;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px 12px 20px;
+      position: relative;
+    }
+    .header__logo {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+    }
+    .header__nav { display: flex; align-items: center; gap: 20px; }
+    .header__nav-link {
+      font-family: 'Apophis Text', sans-serif;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 24px;
+      letter-spacing: 1.2px;
+      color: #000;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .header__nav-link:hover { text-decoration: underline; }
+    .header__icons { display: flex; align-items: center; gap: 20px; }
+    .header__icon-btn {
+      width: 24px;
+      height: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .cart-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      border-radius: 50%;
+      width: 14px;
+      height: 14px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .cart-badge.visible { display: flex; }
+
+    /* ── Product layout ──
+       grid: 245px | 1fr (~671px) | 692px
+       padding-left: 20px → content at 40px from absolute left (20px border + 20px pad)
+       column-gap: 40px
+       Total: 20(border) + 20(pad) + 245 + 40 + 671 + 40 + 692 = 1728px ✓
+    ── */
+    .product-layout {
+      display: grid;
+      grid-template-columns: 245px 1fr 692px;
+      column-gap: 40px;
+      padding-left: 20px;
+      align-items: start;
+    }
+
+    /* ── Left column ── */
+    .product-left {
+      display: flex;
+      flex-direction: column;
+      padding-top: 40px;
+    }
+    .product-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    .product-meta__item {
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 24px;
+      letter-spacing: 1px;
+      color: #000;
+    }
+    .product-meta__item--age {
+      font-family: 'Kristolit', serif;
+      font-weight: 700;
+      font-style: italic;
+      font-size: 22px;
+      line-height: 24px;
+      letter-spacing: 1.1px;
+    }
+    .product-meta__item--ad {
+      font-size: 15px;
+      line-height: 20px;
+      letter-spacing: 0.75px;
+      color: var(--text-secondary);
+    }
+    /* CTA aligned with "Характеристики" section in center col
+       meta ends at ~40(pad) + 330(meta height) = 370px
+       CTA target: 907px from top → margin-top: 907 - 370 = 537px */
+    .product-cta { margin-top: 537px; }
+    .product-buy-btn {
+      display: block;
+      width: 100%;
+      background: #000;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 24px;
+      letter-spacing: 1px;
+      padding: 14px 16px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .product-buy-btn:hover { opacity: 0.85; }
+
+    /* ── Center column ── */
+    .product-content {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+      padding-top: 40px;
+    }
+
+    .product-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .product-title__heading {
+      display: block;
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 35px;
+      line-height: 35px;
+      letter-spacing: 1.75px;
+      color: #000;
+    }
+    .product-title__sub {
+      display: block;
+      font-family: 'Apophis Text', sans-serif;
+      font-weight: 400;
+      font-size: 35px;
+      line-height: 45px;
+      letter-spacing: 1.75px;
+      color: #000;
+    }
+
+    .product-desc {
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 24px;
+      letter-spacing: 1px;
+      color: #000;
+    }
+
+    /* Характеристики accordion */
+    .product-chars {
+      border-top: var(--border-w) solid #000;
+      border-bottom: var(--border-w) solid #000;
+    }
+    .product-chars__toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+    }
+    .product-chars__label {
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 27px;
+      letter-spacing: 1.2px;
+      color: #000;
+    }
+    .product-chars__chevron {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      transition: transform 0.2s ease;
+    }
+    .product-chars__chevron.open { transform: rotate(180deg); }
+    .product-chars__body {
+      display: none;
+      flex-direction: column;
+      padding-bottom: 20px;
+    }
+    .product-chars__body.open { display: flex; }
+    .spec-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 10px 0;
+      border-top: var(--border-w) solid #000;
+    }
+    .spec-row:first-child { border-top: none; }
+    .spec-row__label {
+      width: 200px;
+      flex-shrink: 0;
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 20px;
+      letter-spacing: 0.75px;
+      color: var(--text-secondary);
+    }
+    .spec-row__value {
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 20px;
+      letter-spacing: 0.75px;
+      color: #000;
+    }
+
+    /* Author bio */
+    .product-bio {
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 24px;
+      letter-spacing: 1px;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Large pull quote */
+    .product-quote {
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 400;
+      font-size: 44px;
+      line-height: 48px;
+      letter-spacing: 0;
+      color: #000;
+      text-align: center;
+      list-style: none;
+    }
+
+    /* ── Right column: stacked images (692×710px each) ── */
+    .product-images { display: flex; flex-direction: column; }
+    .product-images__img {
+      display: block;
+      width: 100%;
+      height: 710px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    /* ── Footer logo ── */
+    .footer-logo { padding: 230px 20px 0 20px; background: #fff; }
+    .footer-logo img { display: block; width: 165px; height: 236px; }
+
+    /* ── Footer ── */
+    .footer { background: var(--bg-input); padding: 16px 20px 16px 20px; display: flex; flex-direction: column; gap: 32px; }
+    .footer__top { display: flex; align-items: flex-start; width: 100%; }
+    .footer__left { display: flex; flex: 1; align-items: flex-start; }
+    .footer__col-nav { width: 407px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: space-between; min-height: 409px; }
+    .footer__col-nav-top { display: flex; flex-direction: column; gap: 2px; }
+    .footer__col-nav-bottom { display: flex; flex-direction: column; gap: 2px; width: 210px; }
+    .footer__nav-link { font-family: 'RF Dewi', sans-serif; font-weight: 600; font-size: 24px; line-height: 32px; letter-spacing: 1.2px; color: #000; text-decoration: none; height: 32px; display: flex; align-items: center; }
+    .footer__nav-link--blue { color: var(--accent); }
+    .footer__nav-link:hover { opacity: 0.7; }
+    .footer__col-meta { width: 336px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: space-between; min-height: 409px; }
+    .footer__col-meta-top { display: flex; flex-direction: column; justify-content: space-between; height: 134px; }
+    .footer__copyright { font-family: 'RF Dewi', sans-serif; font-weight: 600; font-size: 24px; line-height: 32px; letter-spacing: 1.2px; color: #000; }
+    .footer__socials { display: flex; flex-direction: column; gap: 2px; width: 126px; }
+    .footer__lang-switch { display: flex; align-items: center; font-family: 'RF Dewi', sans-serif; font-weight: 600; font-size: 20px; line-height: 24px; letter-spacing: 1px; color: #000; }
+    .footer__lang-active { text-decoration: underline; }
+    .footer__lang-divider { padding: 0 2px; font-family: 'Apophis Text', sans-serif; }
+    .footer__col-legal { width: 692px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: space-between; min-height: 409px; font-family: 'RF Dewi', sans-serif; font-weight: 600; font-size: 15px; line-height: 20px; letter-spacing: 0.75px; color: #000; }
+    .footer__legal-text { flex: 1; }
+    .footer__brand { font-size: 15px; line-height: 20px; }
+    .footer__brand em { font-family: 'Kristolit', serif; font-weight: 700; font-style: italic; }
+    .footer__newsletter { display: flex; align-items: flex-end; gap: 8px; width: 100%; }
+    .footer__email-wrap { flex: 1; border-bottom: var(--border-w) solid #000; height: 48px; display: flex; align-items: center; }
+    .footer__email-input { width: 100%; background: none; border: none; outline: none; font-family: 'RF Dewi', sans-serif; font-weight: 600; font-size: 24px; line-height: 32px; letter-spacing: 1.2px; color: var(--text-secondary); }
+    .footer__email-input::placeholder { color: var(--text-secondary); }
+    .footer__subscribe-btn { width: 353px; height: 48px; background: #fff; border: 2px solid #000; cursor: pointer; font-family: 'RF Dewi', sans-serif; font-weight: 600; font-size: 24px; line-height: 32px; letter-spacing: 1.2px; color: #000; text-transform: capitalize; white-space: nowrap; flex-shrink: 0; }
+    .footer__subscribe-btn:hover { background: #000; color: #fff; }
+  </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- Notification bar -->
+  <div class="notif-bar">
+    <span class="notif-bar__text">Вы находитесь на странице магазина ООО «Артгид». Продажа осуществляется отдельным юридическим лицом.</span>
+    <button class="notif-bar__close" aria-label="Закрыть">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="2" y1="2" x2="18" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="18" y1="2" x2="2" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <a href="/" class="header__logo" aria-label="Артгид">
+      <img src="icons/logo-small.svg" height="52" alt="АртГид" />
+    </a>
+    <nav class="header__nav" aria-label="Основное меню">
+      <a href="shop.html" class="header__nav-link">В каталог</a>
+    </nav>
+    <div class="header__icons">
+      <button class="header__icon-btn" aria-label="Корзина" id="cart-btn">
+        <img src="icons/cart.svg" width="24" height="24" alt="" />
+        <span class="cart-badge" id="cart-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Product layout: 3-column grid -->
+  <div class="product-layout">
+
+    <!-- ── Left column: meta + CTA ── -->
+    <aside class="product-left">
+      <div class="product-meta">
+        <div class="product-meta__item">Игорь Поносов</div>
+        <div class="product-meta__item">Музей «Гараж» (серия ГАРАЖ.txt)</div>
+        <div class="product-meta__item">550 ₽</div>
+        <div class="product-meta__item product-meta__item--age">0+</div>
+        <div class="product-meta__item product-meta__item--ad">
+          <span style="color:var(--text-secondary)">Реклама:</span>&ensp;АНО «Артгид»
+        </div>
+      </div>
+      <!-- Aligned with "Характеристики" in center col -->
+      <div class="product-cta">
+        <button class="product-buy-btn" type="button">Купить • 550 ₽</button>
+      </div>
+    </aside>
+
+    <!-- ── Center column: text content ── -->
+    <div class="product-content">
+
+      <h1 class="product-title">
+        <span class="product-title__heading">От стен до сцен.</span>
+        <span class="product-title__sub">Хроника московского уличного искусства 1991–2020</span>
+      </h1>
+
+      <p class="product-desc">
+        Тридцатилетняя история московского уличного искусства — от первых граффити и самиздата 1990-х до коммерциализации и институционализации стрит-арта в 2010-е годы. Редкие фотографии, интервью с художниками, ключевые события сцены и анализ того, как менялся визуальный язык улицы. В основе — личный архив автора, переданный в 2020 году Музею «Гараж».
+      </p>
+
+      <!-- Характеристики accordion -->
+      <div class="product-chars">
+        <button class="product-chars__toggle" id="chars-toggle" aria-expanded="false" aria-controls="chars-body">
+          <span class="product-chars__label">Характеристики</span>
+          <svg class="product-chars__chevron" id="chars-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 7.5L10 12.5L15 7.5" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="product-chars__body" id="chars-body" role="region" aria-labelledby="chars-toggle">
+          <div class="spec-row">
+            <span class="spec-row__label">Количество страниц</span>
+            <span class="spec-row__value">290</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-row__label">Печать</span>
+            <span class="spec-row__value">4+4</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-row__label">Тираж</span>
+            <span class="spec-row__value">3 000 экз</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-row__label">Переплёт</span>
+            <span class="spec-row__value">мягкий</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-row__label">Год</span>
+            <span class="spec-row__value">2023</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-row__label">Издатель</span>
+            <span class="spec-row__value">Музей «Гараж»</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-row__label">Серия</span>
+            <span class="spec-row__value">ГАРАЖ.txt</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-row__label">ISBN</span>
+            <span class="spec-row__value">978-5-907539-25-3</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Author bio -->
+      <div class="product-bio">
+        <p>Игорь Поносов — художник, куратор и теоретик уличного искусства, автор книг «Искусство и город» (2016) и Russian Urban Art: History and Conflicts (2018), соавтор и редактор Энциклопедии российского уличного искусства (2019).</p>
+        <p>Стипендиат программы поддержки молодых российских художников Музея современного искусства «Гараж» (2012), лауреат премии в области современного искусства имени Сергея Курехина («Лучший текст о современном искусстве», 2016), номинант премии Кандинского («Научная работа. Теория и история современного искусства», 2019), финалист премии «Zverev Art Prize / Взгляд. Интерпретация. Позиция» («Книга о современном российском искусстве», 2025).</p>
+      </div>
+
+      <!-- Large pull quote -->
+      <blockquote class="product-quote">
+        Параллельно с развитием граффити-бомбинга московские уличные художники начала нулевых искали новые формы самовыражения, в которых шрифт как основополагающий элемент отходил на второй план или же вовсе отсутствовал
+      </blockquote>
+
+    </div>
+
+    <!-- ── Right column: 4 stacked images (692×710px each) ── -->
+    <div class="product-images" aria-label="Фотографии издания">
+      <img class="product-images__img" src="https://www.figma.com/api/mcp/asset/1bf66566-4c96-4389-985d-78572d9d9068" alt="Обложка книги" />
+      <img class="product-images__img" src="https://www.figma.com/api/mcp/asset/133994e8-c680-4324-9bfe-5561df428a57" alt="Страницы книги" />
+      <img class="product-images__img" src="https://www.figma.com/api/mcp/asset/dd2062cc-4537-4556-a343-4f028eac78f6" alt="Страницы книги" />
+      <img class="product-images__img" src="https://www.figma.com/api/mcp/asset/f2fedaf7-dc6d-400f-a2ee-65ac6c46138c" alt="3D вид обложки" />
+    </div>
+
+  </div><!-- /.product-layout -->
+
+  <!-- Footer logo -->
+  <div class="footer-logo">
+    <img src="icons/logo.svg" alt="Артгид" />
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div class="footer__left">
+        <div class="footer__col-nav">
+          <div class="footer__col-nav-top">
+            <a href="/process" class="footer__nav-link">Процесс</a>
+            <a href="/events" class="footer__nav-link">События</a>
+            <a href="/community" class="footer__nav-link">Арт-сообщество</a>
+            <a href="/about" class="footer__nav-link">Об Артгиде</a>
+          </div>
+          <div class="footer__col-nav-bottom">
+            <a href="mailto:info@artguide.ru" class="footer__nav-link footer__nav-link--blue">info@artguide.ru</a>
+            <span class="footer__nav-link" style="white-space:nowrap">+7 495 280-74-46</span>
+          </div>
+        </div>
+        <div class="footer__col-meta">
+          <div class="footer__col-meta-top">
+            <span class="footer__copyright">© 2009—2026 Артгид. 18+</span>
+            <div class="footer__socials">
+              <a href="https://t.me/artguide" class="footer__nav-link footer__nav-link--blue">Telegram</a>
+              <a href="https://vk.com/artguide" class="footer__nav-link footer__nav-link--blue">Vkontakte</a>
+            </div>
+          </div>
+          <div class="footer__lang-switch">
+            <span class="footer__lang-active">Ru</span>
+            <span class="footer__lang-divider">&nbsp;/&nbsp;</span>
+            <a href="/en" class="footer__nav-link" style="font-size:20px;line-height:20px;height:auto;">Eng</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__col-legal">
+        <p class="footer__legal-text">
+          Свидетельство о регистрации СМИ ЭЛ № ФС 77 — 77989 от 03 марта 2020 г. Выдано Федеральной службой по надзору в сфере связи, информационных технологий и массовых коммуникаций.<br><br>
+          Учредитель — Автономная некоммерческая организация поддержки и развития культуры и искусства «Артгид» (ОГРН 1197700009451).<br><br>
+          Главный редактор — Кравцова М.В.
+        </p>
+        <p class="footer__brand">Сетевое издание <em>artguide.com</em></p>
+      </div>
+    </div>
+    <div class="footer__newsletter">
+      <div class="footer__email-wrap">
+        <input class="footer__email-input" type="email" placeholder="введите свой E-mail" aria-label="Ваш email для подписки на рассылку" />
+      </div>
+      <button class="footer__subscribe-btn" type="button">Подписаться на рассылку</button>
+    </div>
+  </footer>
+
+</div><!-- /.page-wrapper -->
+
+<script>
+  // ── Viewport scaling (base: 1728px) ──
+  var pageWrapper = document.querySelector('.page-wrapper');
+  function updateScale() {
+    var scale = window.innerWidth / 1728;
+    pageWrapper.style.transform = 'scale(' + scale + ')';
+    document.body.style.height = Math.ceil(pageWrapper.offsetHeight * scale) + 'px';
+  }
+  window.addEventListener('resize', updateScale);
+  updateScale();
+
+  // Close notification bar
+  document.querySelector('.notif-bar__close').addEventListener('click', function () {
+    document.querySelector('.notif-bar').style.display = 'none';
+  });
+
+  // Характеристики accordion
+  var charsToggle = document.getElementById('chars-toggle');
+  var charsBody = document.getElementById('chars-body');
+  var charsIcon = document.getElementById('chars-icon');
+  charsToggle.addEventListener('click', function () {
+    var isOpen = charsBody.classList.toggle('open');
+    charsIcon.classList.toggle('open', isOpen);
+    charsToggle.setAttribute('aria-expanded', isOpen);
+  });
+</script>
+
+</body>
+</html>
