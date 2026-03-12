@@ -541,7 +541,7 @@
   <!-- Catalog -->
   <section class="catalog" aria-label="Каталог изданий">
 
-    <a class="card" href="/shop/artguide-1" data-product-id="1" data-product-title="Артгид №1 — Искусство здесь и сейчас" data-product-price="550">
+    <a class="card" href="product.html" data-product-id="1" data-product-title="Артгид №1 — Искусство здесь и сейчас" data-product-price="550">
       <div class="card__image-wrap">
         <img
           class="card__img"
@@ -558,7 +558,7 @@
       </div>
     </a>
 
-    <a class="card" href="/shop/artguide-2" data-product-id="2" data-product-title="Артгид №1 — Современное искусство России" data-product-price="550">
+    <a class="card" href="product.html" data-product-id="2" data-product-title="Артгид №1 — Современное искусство России" data-product-price="550">
       <div class="card__image-wrap">
         <img
           class="card__img"
@@ -575,7 +575,7 @@
       </div>
     </a>
 
-    <a class="card" href="/shop/artguide-3" data-product-id="3" data-product-title="Артгид №1 — Новая волна" data-product-price="550">
+    <a class="card" href="product.html" data-product-id="3" data-product-title="Артгид №1 — Новая волна" data-product-price="550">
       <div class="card__image-wrap">
         <img
           class="card__img"
@@ -750,12 +750,7 @@
     const cartCount = document.getElementById('cart-count');
     const cartBadge = document.getElementById('cart-count');
 
-    document.querySelectorAll('.card').forEach(function (card) {
-      card.addEventListener('click', function (e) {
-        e.preventDefault();
-        // Will open product page — placeholder for add-to-cart demo
-      });
-    });
+    // Cards navigate to product.html via their href
   </script>
 
 </body>
