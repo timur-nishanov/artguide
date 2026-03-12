@@ -250,10 +250,7 @@
     }
 
     /* Характеристики accordion */
-    .product-chars {
-      border-top: var(--border-w) solid #000;
-      border-bottom: var(--border-w) solid #000;
-    }
+    .product-chars {}
     .product-chars__toggle {
       display: flex;
       align-items: center;
@@ -261,6 +258,8 @@
       padding: 20px 0;
       background: none;
       border: none;
+      border-top: 2px solid #000;
+      border-bottom: 2px solid #000;
       cursor: pointer;
       width: 100%;
       text-align: left;
@@ -281,7 +280,6 @@
     .product-chars__body {
       display: none;
       flex-direction: column;
-      padding-bottom: 20px;
     }
     .product-chars__body.open { display: flex; }
     .spec-row {
@@ -289,9 +287,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 14px 0;
-      border-top: var(--border-w) solid #000;
     }
-    .spec-row:first-child { border-top: none; }
     .spec-row__label {
       font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
@@ -583,12 +579,16 @@
   function updateScale() {
     var scale = window.innerWidth / 1728;
     pageWrapper.style.transform = 'scale(' + scale + ')';
-    document.body.style.height = Math.ceil(pageWrapper.offsetHeight * scale) + 'px';
-    // Set column heights to fill viewport below the header
+    // Set column heights FIRST so pageWrapper reflows to correct height
     var colH = Math.floor(window.innerHeight / scale) - getHeaderH();
     productLeft.style.height = colH + 'px';
     productContent.style.height = colH + 'px';
     productImages.style.height = colH + 'px';
+    // THEN read offsetHeight (reflow already has correct column heights)
+    document.body.style.height = Math.ceil(pageWrapper.offsetHeight * scale) + 'px';
+    // Keep scroll targets in bounds after resize
+    targetContent = Math.min(targetContent, productContent.scrollHeight - productContent.clientHeight);
+    targetImages  = Math.min(targetImages,  productImages.scrollHeight  - productImages.clientHeight);
   }
   window.addEventListener('resize', updateScale);
   updateScale();
@@ -599,55 +599,81 @@
     updateScale(); // recalculate heights after notif hidden
   });
 
-  // ── Independent column scrolling with chain behaviour ──
-  function atBottom(el) { return el.scrollTop + el.clientHeight >= el.scrollHeight - 2; }
-  function atTop(el) { return el.scrollTop <= 0; }
+  // ── Smooth scroll with RAF easing ──
+  var targetContent = 0;
+  var targetImages  = 0;
+  var rafId = null;
+  var EASE = 0.12;
 
-  // Center column: intercept wheel, chain to images at boundaries
+  function tick() {
+    var dc = targetContent - productContent.scrollTop;
+    var di = targetImages  - productImages.scrollTop;
+    var moving = false;
+    if (Math.abs(dc) > 0.5) { productContent.scrollTop += dc * EASE; moving = true; }
+    else { productContent.scrollTop = targetContent; }
+    if (Math.abs(di) > 0.5) { productImages.scrollTop += di * EASE; moving = true; }
+    else { productImages.scrollTop = targetImages; }
+    rafId = moving ? requestAnimationFrame(tick) : null;
+  }
+
+  function startAnim() {
+    if (!rafId) rafId = requestAnimationFrame(tick);
+  }
+
+  function clamp(val, min, max) { return Math.max(min, Math.min(max, val)); }
+  function maxScroll(el) { return el.scrollHeight - el.clientHeight; }
+
+  function atBottomTarget(target, el) { return target >= maxScroll(el) - 2; }
+  function atTopTarget(target) { return target <= 0; }
+
+  // ── Independent column scrolling with chain behaviour ──
   productContent.addEventListener('wheel', function (e) {
     var dy = e.deltaY;
     if (dy > 0) {
-      if (!atBottom(productContent)) {
+      if (!atBottomTarget(targetContent, productContent)) {
         e.preventDefault();
-        productContent.scrollTop += dy;
-      } else if (!atBottom(productImages)) {
+        targetContent = clamp(targetContent + dy, 0, maxScroll(productContent));
+        startAnim();
+      } else if (!atBottomTarget(targetImages, productImages)) {
         e.preventDefault();
-        productImages.scrollTop += dy;
+        targetImages = clamp(targetImages + dy, 0, maxScroll(productImages));
+        startAnim();
       }
-      // both at bottom → let page scroll through to footer
     } else {
-      if (!atTop(productContent)) {
+      if (!atTopTarget(targetContent)) {
         e.preventDefault();
-        productContent.scrollTop += dy;
-      } else if (!atTop(productImages)) {
+        targetContent = clamp(targetContent + dy, 0, maxScroll(productContent));
+        startAnim();
+      } else if (!atTopTarget(targetImages)) {
         e.preventDefault();
-        productImages.scrollTop += dy;
+        targetImages = clamp(targetImages + dy, 0, maxScroll(productImages));
+        startAnim();
       }
-      // both at top → let page scroll through
     }
   }, { passive: false });
 
-  // Images column: intercept wheel, chain to center at boundaries
   productImages.addEventListener('wheel', function (e) {
     var dy = e.deltaY;
     if (dy > 0) {
-      if (!atBottom(productImages)) {
+      if (!atBottomTarget(targetImages, productImages)) {
         e.preventDefault();
-        productImages.scrollTop += dy;
-      } else if (!atBottom(productContent)) {
+        targetImages = clamp(targetImages + dy, 0, maxScroll(productImages));
+        startAnim();
+      } else if (!atBottomTarget(targetContent, productContent)) {
         e.preventDefault();
-        productContent.scrollTop += dy;
+        targetContent = clamp(targetContent + dy, 0, maxScroll(productContent));
+        startAnim();
       }
-      // both at bottom → let page scroll through to footer
     } else {
-      if (!atTop(productImages)) {
+      if (!atTopTarget(targetImages)) {
         e.preventDefault();
-        productImages.scrollTop += dy;
-      } else if (!atTop(productContent)) {
+        targetImages = clamp(targetImages + dy, 0, maxScroll(productImages));
+        startAnim();
+      } else if (!atTopTarget(targetContent)) {
         e.preventDefault();
-        productContent.scrollTop += dy;
+        targetContent = clamp(targetContent + dy, 0, maxScroll(productContent));
+        startAnim();
       }
-      // both at top → let page scroll through
     }
   }, { passive: false });
 
