@@ -250,10 +250,7 @@
     }
 
     /* Характеристики accordion */
-    .product-chars {
-      border-top: var(--border-w) solid #000;
-      border-bottom: var(--border-w) solid #000;
-    }
+    .product-chars {}
     .product-chars__toggle {
       display: flex;
       align-items: center;
@@ -261,6 +258,8 @@
       padding: 20px 0;
       background: none;
       border: none;
+      border-top: 1px solid #000;
+      border-bottom: 1px solid #000;
       cursor: pointer;
       width: 100%;
       text-align: left;
@@ -281,7 +280,6 @@
     .product-chars__body {
       display: none;
       flex-direction: column;
-      padding-bottom: 20px;
     }
     .product-chars__body.open { display: flex; }
     .spec-row {
@@ -289,9 +287,8 @@
       align-items: center;
       justify-content: space-between;
       padding: 14px 0;
-      border-top: var(--border-w) solid #000;
+      border-bottom: 1px solid #000;
     }
-    .spec-row:first-child { border-top: none; }
     .spec-row__label {
       font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
