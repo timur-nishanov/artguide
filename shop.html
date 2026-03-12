@@ -111,6 +111,15 @@
       align-items: center;
       justify-content: space-between;
       padding: 12px 20px 12px 20px;
+      position: relative;
+    }
+    .header__logo {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
     }
     .header__nav {
       display: flex;
@@ -128,25 +137,6 @@
       white-space: nowrap;
     }
     .header__nav-link:hover { text-decoration: underline; }
-    .header__right {
-      display: flex;
-      align-items: center;
-      gap: 103px;
-    }
-    .header__support {
-      font-family: 'RF Dewi', sans-serif;
-      font-weight: 600;
-      font-size: 20px;
-      line-height: 20px;
-      letter-spacing: 1px;
-      color: #000;
-      text-decoration: underline;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 2px;
-    }
-    .header__support:hover { opacity: 0.7; }
     .header__icons {
       display: flex;
       align-items: center;
@@ -528,33 +518,18 @@
 
   <!-- Header -->
   <header class="header">
+    <a href="/" class="header__logo" aria-label="Артгид">
+      <img src="icons/logo-small.svg" height="32" alt="АртГид" />
+    </a>
     <nav class="header__nav" aria-label="Основное меню">
-      <a href="/shop" class="header__nav-link">Магазин</a>
-      <a href="/process" class="header__nav-link">Процесс</a>
-      <a href="/events" class="header__nav-link">События</a>
-      <a href="/community" class="header__nav-link">Арт-сообщество</a>
-      <a href="/about" class="header__nav-link">Об Артгиде</a>
+      <a href="/" class="header__nav-link">На главную</a>
     </nav>
-    <div class="header__right">
-      <a href="/support" class="header__support">
-        Поддержи искусство и «Артгид»!
-        <img src="icons/arrow-right-simple.svg" width="20" height="20" alt="" aria-hidden="true" />
-      </a>
-      <div class="header__icons">
-        <!-- Search -->
-        <button class="header__icon-btn" aria-label="Поиск">
-          <img src="icons/search.svg" width="24" height="24" alt="" />
-        </button>
-        <!-- Cart -->
-        <button class="header__icon-btn" aria-label="Корзина" id="cart-btn">
-          <img src="icons/cart.svg" width="24" height="24" alt="" />
-          <span class="cart-badge" id="cart-count">0</span>
-        </button>
-        <!-- Burger -->
-        <button class="header__icon-btn" aria-label="Меню">
-          <img src="icons/burger.svg" width="20" height="20" alt="" />
-        </button>
-      </div>
+    <div class="header__icons">
+      <!-- Cart -->
+      <button class="header__icon-btn" aria-label="Корзина" id="cart-btn">
+        <img src="icons/cart.svg" width="24" height="24" alt="" />
+        <span class="cart-badge" id="cart-count">0</span>
+      </button>
     </div>
   </header>
 
