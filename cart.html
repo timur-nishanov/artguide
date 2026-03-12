@@ -240,6 +240,8 @@
       cursor: pointer;
       padding: 0 4px 2px 4px;
       height: 20px;
+      width: fit-content;
+      align-self: flex-start;
       font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       font-size: 15px;
@@ -278,7 +280,7 @@
       flex-shrink: 0;
     }
     .qty-btn:hover { opacity: 0.7; }
-    .qty-btn svg { display: block; }
+    .qty-btn img { display: block; width: 14px; height: 14px; }
     .qty-value {
       font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
@@ -323,10 +325,10 @@
       padding: 20px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       position: sticky;
       top: 88px; /* notif(32) + header(56) */
-      overflow: hidden;
+      overflow: clip;
+      box-sizing: border-box;
     }
     .cart-calc__top {
       display: flex;
@@ -364,7 +366,7 @@
       color: var(--text-secondary);
     }
     .calc-promo__input::placeholder { color: var(--text-secondary); }
-    .cart-calc__cta { width: 100%; }
+    .cart-calc__cta { width: 100%; margin-top: auto; }
     .cart-cta-btn {
       width: 100%;
       background: #000;
@@ -618,15 +620,11 @@
           <div class="cart-item__controls">
             <div class="qty-control">
               <button class="qty-btn" onclick="changeQty('item-1', -1)" aria-label="Уменьшить количество">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <polyline points="15,18 9,12 15,6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <img src="icons/chevron-left.svg" width="14" height="14" alt="" />
               </button>
               <span class="qty-value" id="qty-item-1">1</span>
               <button class="qty-btn" onclick="changeQty('item-1', 1)" aria-label="Увеличить количество">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <polyline points="9,18 15,12 9,6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <img src="icons/chevron-right.svg" width="14" height="14" alt="" />
               </button>
             </div>
             <span class="cart-item__price" id="price-item-1">550 ₽</span>
@@ -736,12 +734,14 @@
     var scale = window.innerWidth / 1728;
     pageWrapper.style.transform = 'scale(' + scale + ')';
     var headerH = getHeaderH();
-    // Calc panel fills from header bottom to viewport bottom
-    var calcH = Math.floor(window.innerHeight / scale) - headerH;
+    // Calc panel fills from content-start (below hero) to viewport bottom.
+    // Content starts at headerH + HERO_H, so height = viewport/scale - headerH - HERO_H.
+    var calcH = Math.floor(window.innerHeight / scale) - headerH - HERO_H;
     cartCalc.style.height = calcH + 'px';
+    // Sticky: stick just below the header
     cartCalc.style.top = headerH + 'px';
-    // Items area min-height: viewport space available below hero (for empty state centering)
-    cartItemsEl.style.minHeight = (calcH - HERO_H) + 'px';
+    // Items area same min-height for empty state vertical centering
+    cartItemsEl.style.minHeight = calcH + 'px';
     document.body.style.height = Math.ceil(pageWrapper.offsetHeight * scale) + 'px';
   }
   window.addEventListener('resize', updateScale);
