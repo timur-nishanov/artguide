@@ -3,36 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Корзина — Артгид</title>
+  <title>Оформление заказа — Артгид</title>
   <style>
     /* ── Fonts ── */
     @font-face {
       font-family: 'Apophis Text';
       src: url('fonts/ApophisText-Regular.woff') format('woff');
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
+      font-weight: 400; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: 'RF Dewi';
       src: url('fonts/Russian%20Fonts%20-%20RFDewi-Semibold.otf') format('opentype');
-      font-weight: 600;
-      font-style: normal;
-      font-display: swap;
+      font-weight: 600; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: 'RF Dewi';
       src: url('fonts/Russian%20Fonts%20-%20RFDewi-Ultrabold.otf') format('opentype');
-      font-weight: 800;
-      font-style: normal;
-      font-display: swap;
+      font-weight: 800; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: 'Kristolit';
       src: url('fonts/Kristolit-BoldItalic.woff') format('woff');
-      font-weight: 700;
-      font-style: italic;
-      font-display: swap;
+      font-weight: 700; font-style: italic; font-display: swap;
     }
 
     /* ── Reset ── */
@@ -40,7 +32,7 @@
     html { min-height: 100%; }
     body { overflow-x: hidden; background: #fff; }
 
-    /* ── Page scale wrapper (design base: 1728px) ── */
+    /* ── Page wrapper (design base: 1728px) ── */
     .page-wrapper {
       width: 1728px;
       transform-origin: top left;
@@ -51,7 +43,7 @@
       font-weight: 600;
     }
 
-    /* ── Design tokens ── */
+    /* ── Tokens ── */
     :root {
       --accent: #0037FF;
       --bg-input: #ededed;
@@ -114,10 +106,7 @@
       display: flex;
       align-items: center;
     }
-    .header__nav {
-      display: flex;
-      align-items: center;
-    }
+    .header__nav { display: flex; align-items: center; }
     .header__nav-link {
       font-family: 'Apophis Text', sans-serif;
       font-weight: 400;
@@ -129,10 +118,7 @@
       white-space: nowrap;
     }
     .header__nav-link:hover { text-decoration: underline; }
-    .header__icons {
-      display: flex;
-      align-items: center;
-    }
+    .header__icons { display: flex; align-items: center; }
     .header__icon-btn {
       width: 24px;
       height: 24px;
@@ -147,9 +133,7 @@
     .header__icon-btn svg { display: block; }
 
     /* ── Hero ── */
-    .hero {
-      padding: 10px 20px 100px 40px;
-    }
+    .hero { padding: 10px 20px 40px 40px; }
     .hero__title {
       font-family: 'Apophis Text', sans-serif;
       font-weight: 400;
@@ -163,181 +147,93 @@
       white-space: nowrap;
     }
 
-    /* ── Cart body layout ── */
-    .cart-body {
+    /* ── Checkout body layout ── */
+    .checkout-body {
       display: flex;
-      gap: 100px;
+      gap: 80px;
       padding: 0 20px 200px 40px;
       align-items: flex-start;
     }
 
-    /* ── Cart items ── */
-    .cart-items {
+    /* ── Left: form column ── */
+    .checkout-left {
       flex: 1;
       min-width: 0;
       display: flex;
       flex-direction: column;
+      gap: 50px;
     }
-    .cart-item {
-      display: flex;
-      gap: 100px;
-      align-items: flex-start;
-      padding-bottom: 40px;
-      border-bottom: var(--border-w) solid #000;
-      margin-bottom: 0;
-    }
-    .cart-item + .cart-item {
-      padding-top: 40px;
-    }
-    .cart-item__left {
-      display: flex;
-      gap: 0;
-      flex: 1;
-      min-width: 0;
-    }
-    .cart-item__img-wrap {
-      width: 320px;
-      height: 300px;
-      flex-shrink: 0;
-      overflow: hidden;
-    }
-    .cart-item__img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .cart-item__info {
-      flex: 1;
-      min-width: 0;
+    .checkout-section {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      padding-bottom: 8px;
+      gap: 30px;
     }
-    .cart-item__title {
-      font-family: 'RF Dewi', sans-serif;
-      font-weight: 600;
+    .checkout-section__label {
+      font-family: 'Apophis Text', sans-serif;
+      font-weight: 400;
       font-size: 24px;
       line-height: 27px;
       letter-spacing: 1.2px;
       color: #000;
-      margin-bottom: 10px;
+      text-decoration: underline;
+      text-decoration-thickness: 5%;
+      text-underline-offset: 12.5%;
     }
-    .cart-item__specs {
-      font-family: 'Apophis Text', sans-serif;
-      font-weight: 400;
-      font-size: 15px;
-      line-height: 20px;
-      letter-spacing: 1.95px;
-      color: #000;
-      white-space: pre;
-    }
-    .cart-item__delete {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: var(--bg-input);
-      border: none;
-      cursor: pointer;
-      padding: 0 4px 2px 4px;
-      height: 20px;
-      width: fit-content;
-      align-self: flex-start;
-      font-family: 'RF Dewi', sans-serif;
-      font-weight: 600;
-      font-size: 15px;
-      line-height: 20px;
-      color: #000;
-    }
-    .cart-item__delete:hover { opacity: 0.7; }
-    .cart-item__right {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      padding-bottom: 10px;
-      flex-shrink: 0;
-    }
-    .cart-item__controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 292px;
-    }
-    .qty-control {
+
+    /* ── Form fields ── */
+    .form-field {
+      border-bottom: var(--border-w) solid #000;
+      height: 48px;
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    .qty-btn {
-      width: 32px;
-      height: 32px;
-      background: var(--bg-input);
+    .form-input {
+      flex: 1;
+      min-width: 0;
+      background: none;
       border: none;
-      cursor: pointer;
+      outline: none;
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 32px;
+      letter-spacing: 1.2px;
+      color: var(--text-secondary);
+    }
+    .form-input::placeholder { color: var(--text-secondary); }
+    .form-input:not(:placeholder-shown),
+    .form-input:focus { color: #000; }
+    .form-chevron {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 4px;
-      flex-shrink: 0;
     }
-    .qty-btn:hover { opacity: 0.7; }
-    .qty-btn img { display: block; width: 14px; height: 14px; }
-    .qty-value {
-      font-family: 'RF Dewi', sans-serif;
-      font-weight: 600;
-      font-size: 24px;
-      line-height: 27px;
-      letter-spacing: 1.2px;
-      color: #000;
-      text-align: center;
-      width: 40px;
-    }
-    .cart-item__price {
-      font-family: 'RF Dewi', sans-serif;
-      font-weight: 600;
-      font-size: 24px;
-      line-height: 27px;
-      letter-spacing: 1.2px;
-      color: #000;
-      text-align: right;
-      white-space: nowrap;
-    }
-
-    /* ── Empty state ── */
-    .cart-empty {
-      display: none;
-      flex: 1;
-      align-items: center;
-      justify-content: center;
-      font-family: 'RF Dewi', sans-serif;
-      font-weight: 600;
-      font-size: 24px;
-      line-height: 27px;
-      letter-spacing: 1.2px;
-      color: var(--text-secondary);
-      text-align: center;
-    }
-    .cart-empty.visible { display: flex; }
 
     /* ── Calculation panel ── */
-    .cart-calc {
-      width: 427px;
+    .checkout-calc {
+      width: 549px;
       flex-shrink: 0;
-      border: 2px solid var(--accent);
+      border: var(--border-w) solid var(--accent);
       padding: 20px;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       position: sticky;
-      top: 88px; /* notif(32) + header(56) */
+      top: 88px;
       overflow: clip;
-      box-sizing: border-box;
     }
-    .cart-calc__top {
+    .checkout-calc__top {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 40px;
     }
+
+    /* Sum rows */
+    .calc-sum { display: flex; flex-direction: column; gap: 20px; }
     .calc-row {
       display: flex;
       align-items: center;
@@ -350,11 +246,9 @@
       color: #000;
     }
     .calc-row__value { text-align: right; }
-    .calc-promo-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+
+    /* Promo */
+    .calc-promo-wrap { display: flex; flex-direction: column; gap: 10px; }
     .calc-promo {
       border-bottom: var(--border-w) solid #000;
       padding: 10px 0;
@@ -364,13 +258,7 @@
     }
     .calc-promo--success { border-bottom-color: #2AC43C; }
     .calc-promo--error   { border-bottom-color: #FF0000; }
-    .calc-promo__field {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .calc-promo__field { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; }
     .calc-promo__input {
       flex: 1;
       min-width: 0;
@@ -400,7 +288,7 @@
     .calc-promo__btn {
       flex-shrink: 0;
       background: #fff;
-      border: 2px solid #000;
+      border: var(--border-w) solid #000;
       cursor: pointer;
       padding: 8px 10px;
       font-family: 'RF Dewi', sans-serif;
@@ -421,8 +309,52 @@
     }
     .calc-promo__msg--success { color: #2AC43C; }
     .calc-promo__msg--error   { color: #FF0000; }
-    .cart-calc__cta { width: 100%; margin-top: auto; }
-    .cart-cta-btn {
+
+    /* ── Checkboxes ── */
+    .calc-checkboxes { display: flex; flex-direction: column; gap: 10px; }
+    .calc-checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .calc-checkbox {
+      flex-shrink: 0;
+      width: 15px;
+      height: 15px;
+      border: var(--border-w) solid #000;
+      margin-top: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .calc-checkbox--checked { background: #000; }
+    .calc-checkbox__check { display: none; }
+    .calc-checkbox--checked .calc-checkbox__check { display: block; }
+    .calc-checkbox-label {
+      font-family: 'Apophis Text', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 20px;
+      letter-spacing: 1.95px;
+      color: #000;
+      flex: 1;
+    }
+    .calc-checkbox-label a {
+      color: #000;
+      text-underline-offset: 2px;
+    }
+
+    /* ── CTA area ── */
+    .checkout-calc__cta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .pay-btn {
       width: 100%;
       background: #000;
       border: none;
@@ -432,11 +364,8 @@
       align-items: center;
       justify-content: center;
     }
-    .cart-cta-btn--disabled {
-      background: #e0e0e0;
-      cursor: default;
-    }
-    .cart-cta-btn__label {
+    .pay-btn:hover { opacity: 0.85; }
+    .pay-btn__label {
       font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
       font-size: 20px;
@@ -445,12 +374,14 @@
       color: #fff;
       white-space: nowrap;
     }
-    .cart-cta-btn--disabled .cart-cta-btn__label { color: #fff; }
+    .pay-logos {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
 
     /* ── Footer logo ── */
-    .footer-logo {
-      padding: 32px 0 32px 40px;
-    }
+    .footer-logo { padding: 32px 0 32px 40px; }
 
     /* ── Footer ── */
     .footer {
@@ -460,16 +391,8 @@
       flex-direction: column;
       gap: 32px;
     }
-    .footer__top {
-      display: flex;
-      align-items: flex-start;
-    }
-    .footer__left {
-      flex: 1;
-      display: flex;
-      align-items: flex-start;
-      gap: 0;
-    }
+    .footer__top { display: flex; align-items: flex-start; }
+    .footer__left { flex: 1; display: flex; align-items: flex-start; }
     .footer__col-nav {
       width: 407px;
       height: 409px;
@@ -517,10 +440,7 @@
       color: #000;
     }
     .footer__socials { display: flex; flex-direction: column; gap: 2px; width: 126px; }
-    .footer__lang-switch {
-      display: flex;
-      align-items: center;
-    }
+    .footer__lang-switch { display: flex; align-items: center; }
     .footer__lang-active {
       font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
@@ -567,7 +487,13 @@
       font-style: italic;
     }
     .footer__newsletter { display: flex; align-items: flex-end; gap: 8px; width: 100%; }
-    .footer__email-wrap { flex: 1; border-bottom: var(--border-w) solid #000; height: 48px; display: flex; align-items: center; }
+    .footer__email-wrap {
+      flex: 1;
+      border-bottom: var(--border-w) solid #000;
+      height: 48px;
+      display: flex;
+      align-items: center;
+    }
     .footer__email-input {
       background: none;
       border: none;
@@ -583,7 +509,7 @@
     .footer__email-input::placeholder { color: var(--text-secondary); }
     .footer__subscribe-btn {
       background: #fff;
-      border: 2px solid #000;
+      border: var(--border-w) solid #000;
       cursor: pointer;
       height: 48px;
       width: 353px;
@@ -617,72 +543,57 @@
   <!-- Header -->
   <header class="header">
     <nav class="header__nav">
-      <a href="shop.html" class="header__nav-link">Назад</a>
+      <a href="cart.html" class="header__nav-link">В корзину</a>
     </nav>
     <div class="header__logo">
       <img src="icons/logo-small.svg" height="52" alt="АртГид" />
     </div>
     <div class="header__icons">
-      <button class="header__icon-btn" aria-label="Корзина">
+      <a href="cart.html" class="header__icon-btn" aria-label="Корзина">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M2 3H4.5L6.5 16H18L20 7H7" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <circle cx="9" cy="20" r="1.5" fill="black"/>
           <circle cx="16" cy="20" r="1.5" fill="black"/>
         </svg>
-      </button>
+      </a>
     </div>
   </header>
 
   <!-- Hero -->
   <div class="hero">
-    <h1 class="hero__title">Корзина</h1>
+    <h1 class="hero__title">Оформление заказа</h1>
   </div>
 
-  <!-- Cart body -->
-  <div class="cart-body">
+  <!-- Checkout body -->
+  <div class="checkout-body">
 
-    <!-- Left: items list -->
-    <div class="cart-items" id="cart-items">
+    <!-- Left: form -->
+    <div class="checkout-left">
 
-      <!-- Empty state (hidden when items present) -->
-      <div class="cart-empty" id="cart-empty">пустая корзина</div>
-
-      <!-- Cart item -->
-      <div class="cart-item" id="item-1" data-price="550">
-        <div class="cart-item__left">
-          <div class="cart-item__img-wrap">
-            <img
-              class="cart-item__img"
-              src="https://www.figma.com/api/mcp/asset/94751bf8-8185-4639-9841-7cd82c21046b"
-              alt="Обложка книги"
-            />
-          </div>
-          <div class="cart-item__info">
-            <div>
-              <p class="cart-item__title">Новая волна: как молодые художники переосмысляют советское наследие в эпоху цифровой культуры</p>
-              <p class="cart-item__specs">твёрдый переплёт • 320 стр • офсет, 130 г  </p>
-            </div>
-            <button class="cart-item__delete" onclick="removeItem('item-1')">
-              Удалить
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <line x1="3" y1="3" x2="13" y2="13" stroke="black" stroke-width="1.5"/>
-                <line x1="13" y1="3" x2="3" y2="13" stroke="black" stroke-width="1.5"/>
-              </svg>
-            </button>
-          </div>
+      <!-- Personal data -->
+      <div class="checkout-section">
+        <span class="checkout-section__label">Личные данные</span>
+        <div class="form-field">
+          <input class="form-input" type="text" placeholder="имя" autocomplete="given-name" />
         </div>
-        <div class="cart-item__right">
-          <div class="cart-item__controls">
-            <div class="qty-control">
-              <button class="qty-btn" onclick="changeQty('item-1', -1)" aria-label="Уменьшить количество">
-                <img src="icons/chevron-left.svg" width="14" height="14" alt="" />
-              </button>
-              <span class="qty-value" id="qty-item-1">1</span>
-              <button class="qty-btn" onclick="changeQty('item-1', 1)" aria-label="Увеличить количество">
-                <img src="icons/chevron-right.svg" width="14" height="14" alt="" />
-              </button>
-            </div>
-            <span class="cart-item__price" id="price-item-1">550 ₽</span>
+        <div class="form-field">
+          <input class="form-input" type="text" placeholder="фамилия" autocomplete="family-name" />
+        </div>
+        <div class="form-field">
+          <input class="form-input" type="email" placeholder="e-mail" autocomplete="email" />
+        </div>
+        <div class="form-field">
+          <input class="form-input" type="tel" placeholder="телефон" autocomplete="tel" />
+        </div>
+      </div>
+
+      <!-- Delivery -->
+      <div class="checkout-section">
+        <span class="checkout-section__label">Способ получения</span>
+        <div class="form-field">
+          <input class="form-input" type="text" placeholder="город" autocomplete="address-level2" />
+          <div class="form-chevron">
+            <img src="icons/chevron-down.svg" width="24" height="24" alt="" />
           </div>
         </div>
       </div>
@@ -690,44 +601,98 @@
     </div>
 
     <!-- Right: calculation panel -->
-    <div class="cart-calc" id="cart-calc">
-      <div class="cart-calc__top">
-        <div class="calc-row">
-          <span>итого</span>
-          <span class="calc-row__value" id="calc-total">550 ₽</span>
-        </div>
-        <div class="calc-row">
-          <span>товары</span>
-          <span class="calc-row__value" id="calc-goods">550 ₽</span>
-        </div>
-        <div class="calc-row">
-          <span>скидка</span>
-          <span class="calc-row__value" id="calc-discount">0 ₽</span>
-        </div>
-        <div class="calc-promo-wrap">
-          <div class="calc-promo" id="calc-promo">
-            <div class="calc-promo__field">
-              <input class="calc-promo__input" id="promo-input" type="text" placeholder="промокод" aria-label="Промокод" />
-              <div class="calc-promo__check-bg" id="promo-check" style="display:none">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M16.6666 5L7.49992 14.1667L3.33325 10" stroke="white" stroke-width="2"/>
-                </svg>
-              </div>
-            </div>
-            <button class="calc-promo__btn" id="promo-apply-btn" type="button" style="display:none">применить</button>
-            <button class="calc-promo__btn" id="promo-change-btn" type="button" style="display:none">изменить</button>
+    <div class="checkout-calc" id="checkout-calc">
+
+      <!-- Top: sum + promo + checkboxes -->
+      <div class="checkout-calc__top">
+
+        <div class="calc-sum">
+          <div class="calc-row">
+            <span>итого</span>
+            <span class="calc-row__value" id="calc-total">550 ₽</span>
           </div>
-          <span class="calc-promo__msg" id="promo-msg" style="display:none"></span>
+          <div class="calc-row">
+            <span>товары</span>
+            <span class="calc-row__value" id="calc-goods">550 ₽</span>
+          </div>
+          <div class="calc-row">
+            <span>скидка</span>
+            <span class="calc-row__value" id="calc-discount">0 ₽</span>
+          </div>
+
+          <!-- Promo code -->
+          <div class="calc-promo-wrap">
+            <div class="calc-promo" id="calc-promo">
+              <div class="calc-promo__field">
+                <input class="calc-promo__input" id="promo-input" type="text" placeholder="промокод" aria-label="Промокод" />
+                <div class="calc-promo__check-bg" id="promo-check" style="display:none">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.6666 5L7.49992 14.1667L3.33325 10" stroke="white" stroke-width="2"/>
+                  </svg>
+                </div>
+              </div>
+              <button class="calc-promo__btn" id="promo-apply-btn" type="button" style="display:none">применить</button>
+              <button class="calc-promo__btn" id="promo-change-btn" type="button" style="display:none">изменить</button>
+            </div>
+            <span class="calc-promo__msg" id="promo-msg" style="display:none"></span>
+          </div>
+        </div>
+
+        <!-- Checkboxes -->
+        <div class="calc-checkboxes">
+          <div class="calc-checkbox-row" onclick="toggleCheckbox('cb-terms')">
+            <div class="calc-checkbox calc-checkbox--checked" id="cb-terms">
+              <svg class="calc-checkbox__check" width="9" height="7" viewBox="0 0 9 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 3L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="calc-checkbox-label">Я принимаю <a href="#">Условия обработки</a> и <a href="#">Политику конфиденциальности</a></span>
+          </div>
+          <div class="calc-checkbox-row" onclick="toggleCheckbox('cb-news')">
+            <div class="calc-checkbox" id="cb-news">
+              <svg class="calc-checkbox__check" width="9" height="7" viewBox="0 0 9 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 3L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="calc-checkbox-label">Подписаться на рассылку</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom: pay button + logos -->
+      <div class="checkout-calc__cta">
+        <button class="pay-btn" type="button">
+          <span class="pay-btn__label" id="pay-btn-label">оплатить онлайн • 550 ₽</span>
+        </button>
+        <div class="pay-logos">
+          <!-- VISA -->
+          <svg width="52" height="32" viewBox="0 0 52 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0.5" y="0.5" width="51" height="31" rx="2.5" fill="white" stroke="#d9d9d9"/>
+            <text x="26" y="22" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="700" font-style="italic" fill="#1A1F71">VISA</text>
+          </svg>
+          <!-- МИР -->
+          <svg width="59" height="32" viewBox="0 0 59 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="mirGrad" x1="0" y1="0" x2="59" y2="0" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#00ADEF"/>
+                <stop offset="1" stop-color="#00A650"/>
+              </linearGradient>
+            </defs>
+            <rect width="59" height="32" rx="3" fill="url(#mirGrad)"/>
+            <text x="29.5" y="22" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="800" fill="white" letter-spacing="0.5">МИР</text>
+          </svg>
+          <!-- Mastercard -->
+          <svg width="28" height="32" viewBox="0 0 28 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="16" r="9.5" fill="#EB001B"/>
+            <circle cx="18" cy="16" r="9.5" fill="#F79E1B" fill-opacity="0.88"/>
+          </svg>
         </div>
       </div>
-      <div class="cart-calc__cta">
-        <button class="cart-cta-btn" id="cart-cta-btn" type="button" onclick="if(!this.classList.contains('cart-cta-btn--disabled')) location.href='checkout.html'">
-          <span class="cart-cta-btn__label" id="cart-cta-label">оформить заказ • 550 ₽</span>
-        </button>
-      </div>
+
     </div>
 
-  </div>
+  </div><!-- /.checkout-body -->
 
   <!-- Footer logo -->
   <div class="footer-logo">
@@ -776,7 +741,7 @@
     </div>
     <div class="footer__newsletter">
       <div class="footer__email-wrap">
-        <input class="footer__email-input" type="email" placeholder="введите свой E-mail" aria-label="Ваш email для подписки на рассылку" />
+        <input class="footer__email-input" type="email" placeholder="введите свой E-mail" aria-label="Email для подписки" />
       </div>
       <button class="footer__subscribe-btn" type="button">Подписаться на рассылку</button>
     </div>
@@ -787,106 +752,57 @@
 <script>
   // ── Viewport scaling (base: 1728px) ──
   var pageWrapper = document.querySelector('.page-wrapper');
-  var notifBar = document.querySelector('.notif-bar');
-  var cartCalc = document.getElementById('cart-calc');
-  var cartItemsEl = document.getElementById('cart-items');
-  // hero = pt(10) + title(70) + pb(100)
-  var HERO_H = 180;
+  var notifBar    = document.querySelector('.notif-bar');
+  var calcPanel   = document.getElementById('checkout-calc');
+
+  // hero = pt(10) + title-lh(70) + pb(40)
+  var HERO_H = 120;
 
   function getHeaderH() {
     return (notifBar.style.display === 'none' ? 0 : 32) + 56;
   }
 
   function updateScale() {
-    var scale = window.innerWidth / 1728;
+    var scale   = window.innerWidth / 1728;
     pageWrapper.style.transform = 'scale(' + scale + ')';
     var headerH = getHeaderH();
-    // Calc fills from content-start (below hero) to 20px above viewport bottom.
-    // 20 visual px = 20/scale layout px.
-    var calcH = Math.floor((window.innerHeight - 20) / scale) - headerH - HERO_H;
-    cartCalc.style.height = calcH + 'px';
-    // Sticky: stick just below the header
-    cartCalc.style.top = headerH + 'px';
-    // Items area: same height so cart-empty { flex:1 } fills it and centers text
-    cartItemsEl.style.height = calcH + 'px';
+    var calcH   = Math.floor((window.innerHeight - 20) / scale) - headerH - HERO_H;
+    calcH = Math.max(calcH, 680); // never smaller than content
+    calcPanel.style.height = calcH + 'px';
+    calcPanel.style.top    = headerH + 'px';
     document.body.style.height = Math.ceil(pageWrapper.offsetHeight * scale) + 'px';
   }
   window.addEventListener('resize', updateScale);
 
-  // Close notification bar
   document.querySelector('.notif-bar__close').addEventListener('click', function () {
     notifBar.style.display = 'none';
     updateScale();
   });
 
-  // ── Cart state ──
-  var items = {
-    'item-1': { qty: 1, unitPrice: 550 }
-  };
+  // ── Promo code ──
+  var VALID_PROMO   = 'ARTGID2026';
+  var PROMO_AMOUNT  = 100;
+  var GOODS_AMOUNT  = 550;
   var promoDiscount = 0;
 
-  function getSubtotal() {
-    var total = 0;
-    Object.keys(items).forEach(function(id) {
-      total += items[id].qty * items[id].unitPrice;
-    });
-    return total;
-  }
+  var promoInput     = document.getElementById('promo-input');
+  var promoArea      = document.getElementById('calc-promo');
+  var promoCheckIcon = document.getElementById('promo-check');
+  var promoApplyBtn  = document.getElementById('promo-apply-btn');
+  var promoChangeBtn = document.getElementById('promo-change-btn');
+  var promoMsg       = document.getElementById('promo-msg');
 
-  function formatPrice(n) {
-    return n.toLocaleString('ru-RU') + ' ₽';
-  }
+  function formatPrice(n) { return n.toLocaleString('ru-RU') + ' ₽'; }
 
   function renderTotals() {
-    var subtotal = getSubtotal();
-    var discount = promoDiscount;
-    var total = subtotal - discount;
-    document.getElementById('calc-total').textContent = formatPrice(total);
-    document.getElementById('calc-goods').textContent = formatPrice(subtotal);
-    document.getElementById('calc-discount').textContent = discount > 0 ? '−' + formatPrice(discount) : '0 ₽';
-    var btn = document.getElementById('cart-cta-btn');
-    var lbl = document.getElementById('cart-cta-label');
-    if (subtotal === 0) {
-      btn.classList.add('cart-cta-btn--disabled');
-      lbl.textContent = 'Оформить заказ';
-    } else {
-      btn.classList.remove('cart-cta-btn--disabled');
-      lbl.textContent = 'оформить заказ • ' + formatPrice(total);
-    }
+    var total = GOODS_AMOUNT - promoDiscount;
+    document.getElementById('calc-total').textContent    = formatPrice(total);
+    document.getElementById('calc-goods').textContent    = formatPrice(GOODS_AMOUNT);
+    document.getElementById('calc-discount').textContent =
+      promoDiscount > 0 ? '−' + formatPrice(promoDiscount) : '0 ₽';
+    document.getElementById('pay-btn-label').textContent =
+      'оплатить онлайн • ' + formatPrice(total);
   }
-
-  function renderEmpty() {
-    var hasItems = Object.keys(items).length > 0;
-    document.getElementById('cart-empty').classList.toggle('visible', !hasItems);
-  }
-
-  function changeQty(id, delta) {
-    if (!items[id]) return;
-    items[id].qty = Math.max(1, items[id].qty + delta);
-    document.getElementById('qty-' + id).textContent = items[id].qty;
-    document.getElementById('price-' + id).textContent = formatPrice(items[id].qty * items[id].unitPrice);
-    renderTotals();
-    updateScale();
-  }
-
-  function removeItem(id) {
-    var el = document.getElementById(id);
-    if (el) el.remove();
-    delete items[id];
-    renderTotals();
-    renderEmpty();
-    updateScale();
-  }
-
-  // ── Promo code ──
-  var VALID_PROMO = 'ARTGID2026';
-  var PROMO_AMOUNT = 100;
-  var promoInput = document.getElementById('promo-input');
-  var promoArea = document.getElementById('calc-promo');
-  var promoCheckIcon = document.getElementById('promo-check');
-  var promoApplyBtn = document.getElementById('promo-apply-btn');
-  var promoChangeBtn = document.getElementById('promo-change-btn');
-  var promoMsg = document.getElementById('promo-msg');
 
   function applyPromo() {
     var code = promoInput.value.trim().toUpperCase();
@@ -901,18 +817,18 @@
       promoArea.classList.add('calc-promo--success');
       promoCheckIcon.style.display = 'flex';
       promoChangeBtn.style.display = 'block';
-      promoMsg.style.display = 'block';
-      promoMsg.textContent = 'успешный промокод';
-      promoMsg.className = 'calc-promo__msg calc-promo__msg--success';
+      promoMsg.style.display  = 'block';
+      promoMsg.textContent    = 'успешный промокод';
+      promoMsg.className      = 'calc-promo__msg calc-promo__msg--success';
     } else {
       promoDiscount = 0;
       promoArea.classList.remove('calc-promo--success');
       promoArea.classList.add('calc-promo--error');
       promoCheckIcon.style.display = 'none';
       promoChangeBtn.style.display = 'block';
-      promoMsg.style.display = 'block';
-      promoMsg.textContent = 'неверный промокод';
-      promoMsg.className = 'calc-promo__msg calc-promo__msg--error';
+      promoMsg.style.display  = 'block';
+      promoMsg.textContent    = 'неверный промокод';
+      promoMsg.className      = 'calc-promo__msg calc-promo__msg--error';
     }
     renderTotals();
     updateScale();
@@ -925,7 +841,7 @@
     promoInput.style.flex = '';
     promoInput.removeAttribute('size');
     promoInput.focus();
-    promoApplyBtn.style.display = 'none';
+    promoApplyBtn.style.display  = 'none';
     promoChangeBtn.style.display = 'none';
     promoArea.classList.remove('calc-promo--success', 'calc-promo--error');
     promoCheckIcon.style.display = 'none';
@@ -934,20 +850,23 @@
     updateScale();
   }
 
-  promoInput.addEventListener('input', function() {
-    var hasText = promoInput.value.trim().length > 0;
-    promoApplyBtn.style.display = hasText ? 'block' : 'none';
+  promoInput.addEventListener('input', function () {
+    promoApplyBtn.style.display = promoInput.value.trim().length > 0 ? 'block' : 'none';
   });
-  promoInput.addEventListener('keydown', function(e) {
+  promoInput.addEventListener('keydown', function (e) {
     if (e.key === 'Enter') applyPromo();
   });
   promoApplyBtn.addEventListener('click', applyPromo);
   promoChangeBtn.addEventListener('click', resetPromo);
 
-  // Initial render
+  // ── Checkboxes ──
+  function toggleCheckbox(id) {
+    document.getElementById(id).classList.toggle('calc-checkbox--checked');
+  }
+
+  // ── Init ──
   updateScale();
   renderTotals();
-  renderEmpty();
 </script>
 
 </body>
