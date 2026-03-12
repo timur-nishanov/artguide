@@ -741,21 +741,6 @@
     window.addEventListener('resize', updateScale);
     updateScale();
 
-    // ── Smooth page scroll ──
-    var targetPageY = window.scrollY;
-    var pageRafId = null;
-    var EASE = 0.12;
-    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
-    window.addEventListener('wheel', function (e) {
-      targetPageY = clamp(targetPageY + e.deltaY, 0, document.body.scrollHeight - window.innerHeight);
-      if (!pageRafId) pageRafId = requestAnimationFrame(tickPage);
-    }, { passive: true });
-    function tickPage() {
-      var d = targetPageY - window.scrollY;
-      if (Math.abs(d) > 0.5) { window.scrollBy(0, d * EASE); pageRafId = requestAnimationFrame(tickPage); }
-      else { window.scrollTo(0, targetPageY); pageRafId = null; }
-    }
-
     // Close notification bar
     document.querySelector('.notif-bar__close').addEventListener('click', function () {
       document.querySelector('.notif-bar').style.display = 'none';
