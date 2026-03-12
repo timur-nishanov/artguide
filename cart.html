@@ -175,6 +175,8 @@
     .cart-items {
       flex: 1;
       min-width: 0;
+      display: flex;
+      flex-direction: column;
     }
     .cart-item {
       display: flex;
@@ -305,6 +307,7 @@
     /* ── Empty state ── */
     .cart-empty {
       display: none;
+      flex: 1;
       align-items: center;
       justify-content: center;
       font-family: 'RF Dewi', sans-serif;
@@ -734,14 +737,14 @@
     var scale = window.innerWidth / 1728;
     pageWrapper.style.transform = 'scale(' + scale + ')';
     var headerH = getHeaderH();
-    // Calc panel fills from content-start (below hero) to viewport bottom.
-    // Content starts at headerH + HERO_H, so height = viewport/scale - headerH - HERO_H.
-    var calcH = Math.floor(window.innerHeight / scale) - headerH - HERO_H;
+    // Calc fills from content-start (below hero) to 20px above viewport bottom.
+    // 20 visual px = 20/scale layout px.
+    var calcH = Math.floor((window.innerHeight - 20) / scale) - headerH - HERO_H;
     cartCalc.style.height = calcH + 'px';
     // Sticky: stick just below the header
     cartCalc.style.top = headerH + 'px';
-    // Items area same min-height for empty state vertical centering
-    cartItemsEl.style.minHeight = calcH + 'px';
+    // Items area: same height so cart-empty { flex:1 } fills it and centers text
+    cartItemsEl.style.height = calcH + 'px';
     document.body.style.height = Math.ceil(pageWrapper.offsetHeight * scale) + 'px';
   }
   window.addEventListener('resize', updateScale);
