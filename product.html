@@ -282,29 +282,28 @@
     .product-chars__body.open { display: flex; }
     .spec-row {
       display: flex;
-      align-items: flex-start;
-      gap: 20px;
-      padding: 10px 0;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
       border-top: var(--border-w) solid #000;
     }
     .spec-row:first-child { border-top: none; }
     .spec-row__label {
-      width: 200px;
-      flex-shrink: 0;
       font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
-      font-size: 15px;
-      line-height: 20px;
-      letter-spacing: 0.75px;
-      color: var(--text-secondary);
+      font-size: 20px;
+      line-height: 24px;
+      letter-spacing: 1px;
+      color: #000;
     }
     .spec-row__value {
       font-family: 'RF Dewi', sans-serif;
       font-weight: 600;
-      font-size: 15px;
-      line-height: 20px;
-      letter-spacing: 0.75px;
+      font-size: 20px;
+      line-height: 24px;
+      letter-spacing: 1px;
       color: #000;
+      text-align: right;
     }
 
     /* Author bio */
@@ -447,36 +446,36 @@
         </button>
         <div class="product-chars__body" id="chars-body" role="region" aria-labelledby="chars-toggle">
           <div class="spec-row">
-            <span class="spec-row__label">Количество страниц</span>
-            <span class="spec-row__value">290</span>
+            <span class="spec-row__label">Формат</span>
+            <span class="spec-row__value">200 × 260 мм</span>
           </div>
           <div class="spec-row">
-            <span class="spec-row__label">Печать</span>
-            <span class="spec-row__value">4+4</span>
+            <span class="spec-row__label">Страниц</span>
+            <span class="spec-row__value">320</span>
           </div>
           <div class="spec-row">
             <span class="spec-row__label">Тираж</span>
-            <span class="spec-row__value">3 000 экз</span>
+            <span class="spec-row__value">2 000 экз.</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-row__label">Бумага</span>
+            <span class="spec-row__value">офсет, 130 г</span>
           </div>
           <div class="spec-row">
             <span class="spec-row__label">Переплёт</span>
-            <span class="spec-row__value">мягкий</span>
+            <span class="spec-row__value">твёрдый</span>
           </div>
           <div class="spec-row">
             <span class="spec-row__label">Год</span>
             <span class="spec-row__value">2023</span>
           </div>
           <div class="spec-row">
-            <span class="spec-row__label">Издатель</span>
+            <span class="spec-row__label">Издательство</span>
             <span class="spec-row__value">Музей «Гараж»</span>
           </div>
           <div class="spec-row">
             <span class="spec-row__label">Серия</span>
             <span class="spec-row__value">ГАРАЖ.txt</span>
-          </div>
-          <div class="spec-row">
-            <span class="spec-row__label">ISBN</span>
-            <span class="spec-row__value">978-5-907539-25-3</span>
           </div>
         </div>
       </div>
