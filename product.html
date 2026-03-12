@@ -271,9 +271,7 @@
       flex-shrink: 0;
       width: 20px;
       height: 20px;
-      transition: transform 0.2s ease;
     }
-    .product-chars__chevron.open { transform: rotate(180deg); }
     .product-chars__body {
       display: none;
       flex-direction: column;
@@ -440,9 +438,7 @@
       <div class="product-chars">
         <button class="product-chars__toggle" id="chars-toggle" aria-expanded="false" aria-controls="chars-body">
           <span class="product-chars__label">Характеристики</span>
-          <svg class="product-chars__chevron" id="chars-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 7.5L10 12.5L15 7.5" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          <img class="product-chars__chevron" id="chars-icon" src="icons/chevron-down.svg" width="20" height="20" alt="" />
         </button>
         <div class="product-chars__body" id="chars-body" role="region" aria-labelledby="chars-toggle">
           <div class="spec-row">
@@ -580,7 +576,7 @@
   var charsIcon = document.getElementById('chars-icon');
   charsToggle.addEventListener('click', function () {
     var isOpen = charsBody.classList.toggle('open');
-    charsIcon.classList.toggle('open', isOpen);
+    charsIcon.src = isOpen ? 'icons/chevron-up.svg' : 'icons/chevron-down.svg';
     charsToggle.setAttribute('aria-expanded', isOpen);
   });
 </script>
