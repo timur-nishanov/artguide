@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Оплата и доставка — Артгид</title>
+  <style>
+    /* ── Fonts ── */
+    @font-face {
+      font-family: 'Apophis Text';
+      src: url('fonts/ApophisText-Regular.woff') format('woff');
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'RF Dewi';
+      src: url('fonts/Russian%20Fonts%20-%20RFDewi-Semibold.otf') format('opentype');
+      font-weight: 600; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'RF Dewi';
+      src: url('fonts/Russian%20Fonts%20-%20RFDewi-Ultrabold.otf') format('opentype');
+      font-weight: 800; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Kristolit';
+      src: url('fonts/Kristolit-BoldItalic.woff') format('woff');
+      font-weight: 700; font-style: italic; font-display: swap;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { min-height: 100%; }
+    body { overflow-x: hidden; background: #fff; }
+
+    /* ── Page wrapper (design base: 1728px) ── */
+    .page-wrapper {
+      width: 1728px;
+      transform-origin: top left;
+      border-left: 20px solid #000;
+      background: #fff;
+      color: #000;
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+    }
+
+    /* ── Tokens ── */
+    :root {
+      --accent: #0037FF;
+      --bg-input: #ededed;
+      --text-secondary: #a9a9a9;
+      --border-w: 2px;
+    }
+
+    /* ── Header ── */
+    .header {
+      border-bottom: var(--border-w) solid #000;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      position: relative;
+    }
+    .header__logo {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+    }
+    .header__nav { display: flex; align-items: center; }
+    .header__nav-link {
+      font-family: 'Apophis Text', sans-serif;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 24px;
+      letter-spacing: 1.2px;
+      color: #000;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .header__nav-link:hover { text-decoration: underline; }
+    .header__icons { display: flex; align-items: center; }
+    .header__icon-btn {
+      width: 24px;
+      height: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .header__icon-btn svg { display: block; }
+
+    /* ── Hero ── */
+    .hero { padding: 10px 20px 100px 20px; }
+    .hero__title {
+      font-family: 'Apophis Text', sans-serif;
+      font-weight: 400;
+      font-size: 64px;
+      line-height: 70px;
+      letter-spacing: 3.2px;
+      color: #000;
+      text-decoration: underline;
+      text-decoration-thickness: 5%;
+      text-underline-offset: 12.5%;
+      white-space: nowrap;
+    }
+
+    /* ── Page body ── */
+    .page-body {
+      display: flex;
+      gap: 0;
+      padding: 0 20px 200px 20px;
+      align-items: flex-start;
+    }
+
+    /* ── Left: anchors nav ── */
+    .page-nav {
+      width: 407px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding-right: 40px;
+    }
+    .page-nav__link {
+      font-family: 'Apophis Text', sans-serif;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 32px;
+      letter-spacing: 1.2px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color 0.15s;
+    }
+    .page-nav__link:hover,
+    .page-nav__link.active { color: #000; }
+
+    /* ── Right: content ── */
+    .page-content {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 100px;
+    }
+
+    /* ── Section ── */
+    .info-section {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    .info-section__title {
+      font-family: 'Apophis Text', sans-serif;
+      font-weight: 400;
+      font-size: 40px;
+      line-height: 44px;
+      letter-spacing: 2px;
+      color: #000;
+      text-decoration: underline;
+      text-decoration-thickness: 5%;
+      text-underline-offset: 10%;
+    }
+
+    /* ── Info blocks ── */
+    .info-blocks {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .info-block {
+      border-top: var(--border-w) solid #000;
+      display: flex;
+      align-items: flex-start;
+      gap: 40px;
+      padding: 30px 0;
+    }
+    .info-block:last-child { border-bottom: var(--border-w) solid #000; }
+    .info-block__label {
+      width: 320px;
+      flex-shrink: 0;
+      font-family: 'Apophis Text', sans-serif;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 27px;
+      letter-spacing: 1.2px;
+      color: #000;
+      padding-top: 2px;
+    }
+    .info-block__text {
+      flex: 1;
+      min-width: 0;
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 26px;
+      letter-spacing: 0.75px;
+      color: #000;
+    }
+    .info-block__text p + p { margin-top: 14px; }
+    .info-block__text strong {
+      font-size: 24px;
+      line-height: 30px;
+      letter-spacing: 1.2px;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .info-block__text a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .info-block__text a:hover { text-decoration: underline; }
+
+    /* ── Payment icons row ── */
+    .pay-icons {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    /* ── Note box ── */
+    .info-note {
+      background: var(--bg-input);
+      padding: 24px 30px;
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 26px;
+      letter-spacing: 0.75px;
+      color: #000;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--bg-input);
+      padding: 16px 20px 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .footer__top { display: flex; align-items: flex-start; }
+    .footer__left { flex: 1; display: flex; align-items: flex-start; }
+    .footer__col-nav {
+      width: 407px;
+      height: 409px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .footer__col-nav-top { display: flex; flex-direction: column; gap: 2px; }
+    .footer__col-nav-bottom { display: flex; flex-direction: column; gap: 2px; width: 210px; }
+    .footer__nav-link {
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 32px;
+      letter-spacing: 1.2px;
+      color: #000;
+      text-decoration: none;
+      min-height: 32px;
+      display: flex;
+      align-items: center;
+    }
+    .footer__nav-link--blue { color: var(--accent); }
+    .footer__nav-link:hover { text-decoration: underline; }
+    .footer__col-meta {
+      width: 336px;
+      height: 409px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .footer__col-meta-top {
+      height: 134px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .footer__copyright {
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 32px;
+      letter-spacing: 1.2px;
+      color: #000;
+    }
+    .footer__socials { display: flex; flex-direction: column; gap: 2px; width: 126px; }
+    .footer__lang-switch { display: flex; align-items: center; }
+    .footer__lang-active {
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 20px;
+      letter-spacing: 1px;
+      color: #000;
+      text-decoration: underline;
+    }
+    .footer__lang-divider {
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 20px;
+      color: #000;
+    }
+    .footer__col-legal {
+      width: 692px;
+      height: 409px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .footer__legal-text {
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 20px;
+      letter-spacing: 0.75px;
+      color: #000;
+    }
+    .footer__brand {
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 20px;
+      letter-spacing: 0.75px;
+      color: #000;
+    }
+    .footer__brand em {
+      font-family: 'Kristolit', sans-serif;
+      font-weight: 700;
+      font-style: italic;
+    }
+    .footer__newsletter { display: flex; align-items: flex-end; gap: 8px; width: 100%; }
+    .footer__email-wrap {
+      flex: 1;
+      border-bottom: var(--border-w) solid #000;
+      height: 48px;
+      display: flex;
+      align-items: center;
+    }
+    .footer__email-input {
+      background: none;
+      border: none;
+      outline: none;
+      width: 100%;
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 32px;
+      letter-spacing: 1.2px;
+      color: var(--text-secondary);
+    }
+    .footer__email-input::placeholder { color: var(--text-secondary); }
+    .footer__subscribe-btn {
+      background: #fff;
+      border: var(--border-w) solid #000;
+      cursor: pointer;
+      height: 48px;
+      width: 353px;
+      flex-shrink: 0;
+      font-family: 'RF Dewi', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 32px;
+      letter-spacing: 1.2px;
+      color: #000;
+    }
+    .footer__subscribe-btn:hover { background: #000; color: #fff; }
+  </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <!-- Header -->
+  <header class="header">
+    <nav class="header__nav">
+      <a href="shop.html" class="header__nav-link">назад</a>
+    </nav>
+    <div class="header__logo">
+      <img src="icons/logo-small.svg" height="52" alt="АртГид" />
+    </div>
+    <div class="header__icons">
+      <a href="cart.html" class="header__icon-btn" aria-label="Корзина">
+        <img src="icons/cart.svg" width="24" height="24" alt="" />
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1 class="hero__title">Оплата и доставка</h1>
+  </div>
+
+  <!-- Body -->
+  <div class="page-body">
+
+    <!-- Left: sticky section nav -->
+    <nav class="page-nav" aria-label="Разделы страницы">
+      <a class="page-nav__link active" href="#payment">Оплата</a>
+      <a class="page-nav__link" href="#delivery">Доставка</a>
+      <a class="page-nav__link" href="#pickup">Самовывоз</a>
+      <a class="page-nav__link" href="#returns">Возврат</a>
+    </nav>
+
+    <!-- Right: content -->
+    <div class="page-content">
+
+      <!-- ── Оплата ── -->
+      <section class="info-section" id="payment">
+        <h2 class="info-section__title">Оплата</h2>
+        <div class="info-blocks">
+
+          <div class="info-block">
+            <span class="info-block__label">Банковская карта онлайн</span>
+            <div class="info-block__text">
+              <p>Оплата производится через защищённый платёжный шлюз. Принимаются карты Visa, Mastercard, МИР. Средства списываются в момент подтверждения заказа.</p>
+              <div class="pay-icons">
+                <!-- VISA -->
+                <svg width="52" height="32" viewBox="0 0 52 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="0.5" y="0.5" width="51" height="31" rx="2.5" fill="white" stroke="#d9d9d9"/>
+                  <text x="26" y="22" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="700" font-style="italic" fill="#1A1F71">VISA</text>
+                </svg>
+                <!-- МИР -->
+                <svg width="59" height="32" viewBox="0 0 59 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="mirGrad" x1="0" y1="0" x2="59" y2="0" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#00ADEF"/>
+                      <stop offset="1" stop-color="#00A650"/>
+                    </linearGradient>
+                  </defs>
+                  <rect width="59" height="32" rx="3" fill="url(#mirGrad)"/>
+                  <text x="29.5" y="22" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="800" fill="white" letter-spacing="0.5">МИР</text>
+                </svg>
+                <!-- Mastercard -->
+                <svg width="52" height="32" viewBox="0 0 52 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="0.5" y="0.5" width="51" height="31" rx="2.5" fill="white" stroke="#d9d9d9"/>
+                  <circle cx="20" cy="16" r="8.5" fill="#EB001B"/>
+                  <circle cx="32" cy="16" r="8.5" fill="#F79E1B" fill-opacity="0.88"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-block">
+            <span class="info-block__label">СБП — Система быстрых платежей</span>
+            <div class="info-block__text">
+              <p>Оплата по QR-коду через мобильное приложение вашего банка. Комиссия не взимается. Средства поступают мгновенно.</p>
+            </div>
+          </div>
+
+          <div class="info-block">
+            <span class="info-block__label">Наличными при получении</span>
+            <div class="info-block__text">
+              <p>Доступно только для курьерской доставки по Москве. Оплата осуществляется в момент передачи заказа курьером — точной суммой или картой через терминал.</p>
+            </div>
+          </div>
+
+          <div class="info-block">
+            <span class="info-block__label">Счёт для юридических лиц</span>
+            <div class="info-block__text">
+              <p>Для оформления счёта на организацию отправьте реквизиты на <a href="mailto:shop@artguide.ru">shop@artguide.ru</a>. Мы подготовим пакет документов в течение одного рабочего дня.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="info-note">
+          Все платежи защищены SSL-шифрованием. Артгид не хранит данные банковских карт — они передаются напрямую в платёжную систему.
+        </div>
+      </section>
+
+      <!-- ── Доставка ── -->
+      <section class="info-section" id="delivery">
+        <h2 class="info-section__title">Доставка</h2>
+        <div class="info-blocks">
+
+          <div class="info-block">
+            <span class="info-block__label">Курьер по Москве</span>
+            <div class="info-block__text">
+              <strong>от 350 ₽ · 1–2 рабочих дня</strong>
+              <p>Доставка осуществляется с понедельника по субботу с 10:00 до 22:00. Курьер свяжется с вами за час до прибытия. Стоимость рассчитывается автоматически при оформлении заказа.</p>
+              <p>При заказе от 3 000 ₽ доставка по Москве бесплатна.</p>
+            </div>
+          </div>
+
+          <div class="info-block">
+            <span class="info-block__label">СДЭК по России</span>
+            <div class="info-block__text">
+              <strong>от 290 ₽ · 2–7 рабочих дней</strong>
+              <p>Доставка в пункты выдачи или курьером до двери. Срок и стоимость зависят от удалённости региона. Вы получите трек-номер для отслеживания посылки.</p>
+            </div>
+          </div>
+
+          <div class="info-block">
+            <span class="info-block__label">Почта России</span>
+            <div class="info-block__text">
+              <strong>от 180 ₽ · 5–14 рабочих дней</strong>
+              <p>Доступна для всех населённых пунктов России. Отправка производится заказным письмом или бандеролью с уведомлением о вручении.</p>
+            </div>
+          </div>
+
+          <div class="info-block">
+            <span class="info-block__label">Международная доставка</span>
+            <div class="info-block__text">
+              <strong>от 1 200 ₽ · 7–21 рабочий день</strong>
+              <p>Доставка в страны СНГ и Европу осуществляется через международных логистических партнёров. Таможенные пошлины и налоги страны назначения оплачиваются получателем.</p>
+              <p>По вопросам международной доставки пишите на <a href="mailto:shop@artguide.ru">shop@artguide.ru</a>.</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── Самовывоз ── -->
+      <section class="info-section" id="pickup">
+        <h2 class="info-section__title">Самовывоз</h2>
+        <div class="info-blocks">
+
+          <div class="info-block">
+            <span class="info-block__label">Офис Артгид</span>
+            <div class="info-block__text">
+              <strong>Бесплатно · Готов к выдаче через 1 день</strong>
+              <p>Москва, ул. Пятницкая, 18, подъезд 2, 3-й этаж<br>
+              Пн–Пт: 12:00–20:00<br>
+              Сб: 12:00–18:00, Вс: выходной</p>
+              <p>Перед визитом убедитесь, что получили SMS или письмо с подтверждением готовности заказа. При получении предъявите номер заказа.</p>
+            </div>
+          </div>
+
+          <div class="info-block">
+            <span class="info-block__label">Партнёрские точки</span>
+            <div class="info-block__text">
+              <p>Самовывоз также доступен в партнёрских книжных магазинах и галереях Москвы. Полный список актуальных точек отображается при оформлении заказа в зависимости от выбранных товаров.</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── Возврат ── -->
+      <section class="info-section" id="returns">
+        <h2 class="info-section__title">Возврат</h2>
+        <div class="info-blocks">
+
+          <div class="info-block">
+            <span class="info-block__label">Условия возврата</span>
+            <div class="info-block__text">
+              <p>Вы вправе вернуть товар надлежащего качества в течение <strong style="display:inline;font-size:inherit;letter-spacing:inherit;line-height:inherit;margin:0;">14 дней</strong> с момента получения. Товар должен быть в оригинальной упаковке, без следов использования, с сохранёнными этикетками.</p>
+              <p>Цифровые издания и подписки возврату не подлежат.</p>
+            </div>
+          </div>
+
+          <div class="info-block">
+            <span class="info-block__label">Как оформить возврат</span>
+            <div class="info-block__text">
+              <p>Напишите на <a href="mailto:shop@artguide.ru">shop@artguide.ru</a> с темой письма «Возврат» и укажите номер заказа. Мы ответим в течение одного рабочего дня и договоримся о способе возврата товара.</p>
+              <p>Стоимость обратной пересылки несёт покупатель, если товар надлежащего качества. В случае заводского брака расходы на доставку возмещаются полностью.</p>
+            </div>
+          </div>
+
+          <div class="info-block">
+            <span class="info-block__label">Сроки возврата денег</span>
+            <div class="info-block__text">
+              <p>После получения и проверки товара деньги возвращаются на счёт в течение 3–10 рабочих дней в зависимости от платёжной системы.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="info-note">
+          По всем вопросам обращайтесь по электронной почте <a href="mailto:shop@artguide.ru" style="color:var(--accent);">shop@artguide.ru</a> или по телефону <a href="tel:+74952807446" style="color:inherit;text-decoration:none;">+7 495 280-74-46</a> в рабочие дни с 12:00 до 20:00.
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Footer logo -->
+  <div style="padding: 230px 0 0 20px;">
+    <img src="icons/logo.svg" alt="Артгид" />
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div class="footer__left">
+        <div class="footer__col-nav">
+          <div class="footer__col-nav-top">
+            <a href="/process" class="footer__nav-link">Процесс</a>
+            <a href="/events" class="footer__nav-link">События</a>
+            <a href="/community" class="footer__nav-link">Арт-сообщество</a>
+            <a href="/about" class="footer__nav-link">Об Артгиде</a>
+          </div>
+          <div class="footer__col-nav-bottom">
+            <a href="mailto:info@artguide.ru" class="footer__nav-link footer__nav-link--blue">info@artguide.ru</a>
+            <span class="footer__nav-link" style="white-space:nowrap">+7 495 280-74-46</span>
+          </div>
+        </div>
+        <div class="footer__col-meta">
+          <div class="footer__col-meta-top">
+            <span class="footer__copyright">© 2009—2026 Артгид. 18+</span>
+            <div class="footer__socials">
+              <a href="https://t.me/artguide" class="footer__nav-link footer__nav-link--blue">Telegram</a>
+              <a href="https://vk.com/artguide" class="footer__nav-link footer__nav-link--blue">Vkontakte</a>
+            </div>
+          </div>
+          <div class="footer__lang-switch">
+            <span class="footer__lang-active">Ru</span>
+            <span class="footer__lang-divider">&nbsp;/&nbsp;</span>
+            <a href="/en" class="footer__nav-link" style="font-size:20px;line-height:20px;height:auto;">Eng</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__col-legal">
+        <p class="footer__legal-text">
+          Свидетельство о регистрации СМИ ЭЛ № ФС 77 — 77989 от 03 марта 2020 г. Выдано Федеральной службой по надзору в сфере связи, информационных технологий и массовых коммуникаций.<br><br>
+          Учредитель — Автономная некоммерческая организация поддержки и развития культуры и искусства «Артгид» (ОГРН 1197700009451).<br><br>
+          Главный редактор — Кравцова М.В.
+        </p>
+        <p class="footer__brand">Сетевое издание <em>artguide.com</em></p>
+      </div>
+    </div>
+    <div class="footer__newsletter">
+      <div class="footer__email-wrap">
+        <input class="footer__email-input" type="email" placeholder="введите свой E-mail" aria-label="Email для подписки" />
+      </div>
+      <button class="footer__subscribe-btn" type="button">Подписаться на рассылку</button>
+    </div>
+  </footer>
+
+</div><!-- /.page-wrapper -->
+
+<script>
+  // ── Viewport scaling (base: 1728px) ──
+  var pageWrapper = document.querySelector('.page-wrapper');
+
+  function updateScale() {
+    var scale = window.innerWidth / 1728;
+    pageWrapper.style.transform = 'scale(' + scale + ')';
+    document.body.style.height = Math.ceil(pageWrapper.offsetHeight * scale) + 'px';
+  }
+  window.addEventListener('resize', updateScale);
+  updateScale();
+
+  // ── Active section highlight in nav ──
+  var navLinks = document.querySelectorAll('.page-nav__link');
+  var sections = Array.from(navLinks).map(function (link) {
+    return document.querySelector(link.getAttribute('href'));
+  });
+
+  function onScroll() {
+    var scale = window.innerWidth / 1728;
+    var scrollY = window.scrollY / scale;
+    var current = 0;
+    sections.forEach(function (section, i) {
+      if (section && section.offsetTop - 120 <= scrollY) { current = i; }
+    });
+    navLinks.forEach(function (link, i) {
+      link.classList.toggle('active', i === current);
+    });
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+</script>
+
+</body>
+</html>
